@@ -2,7 +2,9 @@
   <img src="src/images/logo/black_on_yellow.png" height=250/>
 </p>
 
-Frontend for the happibees platform developed with Gatsby, an open source framework based on React.
+Save
+
+Frontend of the happibees platform - a crowdfunding platform to connect **BeeKeepers** and **BeeLovers** to help save the 🐝 and the 🌍. Bee’s extinction is happening due to the lack of educational and monetary investment, which contributes to the ecosystem’s degradation. Developed with Gatsby, an open source framework based on React.
 
 ## 🚀 Quick start
 
