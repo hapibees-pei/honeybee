@@ -1,10 +1,6 @@
 <p align="center">
-  <img src="src/images/logo/black_on_yellow.png" height=150/>
+  <img src="src/images/logo/black_on_yellow.png" height=250/>
 </p>
-
-<h1 align="center">
-  frontend
-</h1>
 
 Frontend for the happibees platform developed with Gatsby, an open source framework based on React.
 
