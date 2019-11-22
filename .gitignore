@@ -70,3 +70,6 @@ yarn-error.log
 
 #webstorm
 .idea/
+
+# Nextjs
+.next/
