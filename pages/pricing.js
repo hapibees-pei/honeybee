@@ -42,10 +42,11 @@ const useStyles = makeStyles(theme => ({
     },
   },
   appBar: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
+    borderBottom: `1px solid ${theme.palette.divider}`
   },
   toolbar: {
     flexWrap: 'wrap',
+    backgroundColor: `rgb(252, 195, 34)`
   },
   toolbarTitle: {
     flexGrow: 1,
@@ -55,9 +56,14 @@ const useStyles = makeStyles(theme => ({
   },
   heroContent: {
     padding: theme.spacing(8, 0, 6),
+    marginTop: 50,
+    marginBottom: 50
   },
   cardHeader: {
     backgroundColor: theme.palette.grey[200],
+  },
+  apiaryOwner: {
+    backgroundColor: 'white',
   },
   cardPricing: {
     display: 'flex',
@@ -75,40 +81,55 @@ const useStyles = makeStyles(theme => ({
       paddingBottom: theme.spacing(6),
     },
   },
+  supportHive: {
+    padding: 20,
+    fontSize: 26,
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: `rgb(0, 90, 254)`,
+    marginBottom: 40
+  },
+  reasons: {
+    fontSize: 24,
+    textAlign: 'center',
+    marginBottom: 40
+  },
+  featuredApiaries: {
+    padding: 20,
+    fontSize: 26,
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: `rgb(0, 90, 254)`,
+    marginTop: 90,
+    marginBottom: 40
+  }
 }));
 
 const tiers = [
   {
-    title: 'Free',
+    title: 'Reason 1',
     price: '0',
-    description: ['10 users included', '2 GB of storage', 'Help center access', 'Email support'],
-    buttonText: 'Sign up for free',
-    buttonVariant: 'outlined',
+    description: ['10 users included', '2 GB of storage', 'Help center access', 'Email support']
   },
   {
-    title: 'Pro',
-    subheader: 'Most popular',
+    title: 'Reason 2',
     price: '15',
     description: [
       '20 users included',
       '10 GB of storage',
       'Help center access',
       'Priority email support',
-    ],
-    buttonText: 'Get started',
-    buttonVariant: 'contained',
+    ]
   },
   {
-    title: 'Enterprise',
+    title: 'Reason 3',
     price: '30',
     description: [
       '50 users included',
       '30 GB of storage',
       'Help center access',
       'Phone & email support',
-    ],
-    buttonText: 'Contact us',
-    buttonVariant: 'outlined',
+    ]
   },
 ];
 const footers = [
@@ -139,15 +160,9 @@ export default function Pricing() {
       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-            Company name
+            hapibees
           </Typography>
           <nav>
-            <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-              Features
-            </Link>
-            <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-              Enterprise
-            </Link>
             <Link variant="button" color="textPrimary" href="#" className={classes.link}>
               Support
             </Link>
@@ -160,7 +175,7 @@ export default function Pricing() {
       {/* Hero unit */}
       <Container maxWidth="sm" component="main" className={classes.heroContent}>
         <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-          Pricing
+          Hero Message
         </Typography>
         <Typography variant="h5" align="center" color="textSecondary" component="p">
           Quickly build an effective pricing table for your potential customers with this layout.
@@ -169,6 +184,16 @@ export default function Pricing() {
       </Container>
       {/* End hero unit */}
       <Container maxWidth="md" component="main">
+        <Container maxWidth="sm" component="main">
+          <div className={classes.supportHive}>
+            Why should you support a Beehive?
+          </div>
+        </Container>
+        <Container maxWidth="md" component="main">
+          <div className={classes.reasons}>
+            Bees are disapearing, bla bla bla
+          </div>
+        </Container>
         <Grid container spacing={5} alignItems="flex-end">
           {tiers.map(tier => (
             // Enterprise card is full width at sm breakpoint
@@ -199,15 +224,108 @@ export default function Pricing() {
                     ))}
                   </ul>
                 </CardContent>
-                <CardActions>
-                  <Button fullWidth variant={tier.buttonVariant} color="primary">
-                    {tier.buttonText}
-                  </Button>
-                </CardActions>
               </Card>
             </Grid>
           ))}
         </Grid>
+      </Container>
+      <Container maxWidth="md" component="main">
+        <Container maxWidth="sm" component="main">
+          <div className={classes.featuredApiaries}>
+            Featured Apiaries
+          </div>
+        </Container>
+        <Grid container spacing={5} alignItems="center">
+          <Grid item xs={12} sm={6} md={6}>
+            <Card>
+              <CardContent>
+                <div className={classes.cardPricing}>
+                  <Typography component="h2" variant="h3" color="textPrimary">
+                    The Holy Grail
+                  </Typography>
+                </div>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Card>
+              <CardContent>
+                <div className={classes.cardPricing}>
+                  <Typography component="h2" variant="h4" color="textPrimary">
+                    Machado&apos;s Apiary
+                  </Typography>
+                </div>
+                <CardActions>
+                  <Button fullWidth variant="contained" color="warning">
+                    Back this apiary
+                  </Button>
+                </CardActions>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+        <div style={{ marginTop: 60 }}>
+          <Grid container spacing={5} alignItems="center">
+            <Grid item xs={12} sm={6} md={6}>
+              <Card>
+                <CardContent>
+                  <div className={classes.cardPricing}>
+                    <Typography component="h2" variant="h4" color="textPrimary">
+                      Gonçalves&apos; Apiary
+                    </Typography>
+                  </div>
+                  <CardActions>
+                    <Button fullWidth variant="contained" color="warning">
+                      Back this apiary
+                    </Button>
+                  </CardActions>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <Card>
+                <CardContent>
+                  <div className={classes.cardPricing}>
+                    <Typography component="h2" variant="h3" color="textPrimary">
+                      The Holy Grail 2
+                    </Typography>
+                  </div>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </div>
+        <div style={{ marginTop: 60 }}>
+          <Grid container spacing={5} alignItems="center">
+            <Grid item xs={12} sm={6} md={6}>
+              <Card>
+                <CardContent>
+                  <div className={classes.cardPricing}>
+                    <Typography component="h2" variant="h3" color="textPrimary">
+                      The Holy Grail 3
+                    </Typography>
+                  </div>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <Card>
+                <CardContent>
+                  <div className={classes.cardPricing}>
+                    <Typography component="h2" variant="h4" color="textPrimary">
+                      Resende&apos;s Apiary
+                    </Typography>
+                  </div>
+                  <CardActions>
+                    <Button fullWidth variant="contained" color="warning">
+                      Back this apiary
+                    </Button>
+                  </CardActions>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </div>
       </Container>
       {/* Footer */}
       <Container maxWidth="md" component="footer" className={classes.footer}>
