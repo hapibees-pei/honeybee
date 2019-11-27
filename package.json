@@ -8,6 +8,12 @@
   "dependencies": {
     "@material-ui/core": "^4.7.0",
     "@material-ui/icons": "^4.5.1",
+<<<<<<< HEAD
+    "leaflet": "^1.6.0",
+    "leaflet.markercluster": "^1.4.1",
+=======
+>>>>>>> 1ae5e65... eslint added
+    "eslint-plugin-react": "^7.17.0",
     "leaflet": "^1.6.0",
     "leaflet.markercluster": "^1.4.1",
     "eslint-plugin-react": "^7.17.0",
