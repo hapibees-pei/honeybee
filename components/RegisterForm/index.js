@@ -1,17 +1,7 @@
 import React from 'react';
-import {
-	Button,
-	TextField,
-	FormControl,
-	FormLabel,
-	RadioGroup,
-	RadioButton,
-	Radio,
-	FormHelperText,
-	FormControlLabel
-} from '@material-ui/core';
+import {Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField} from '@material-ui/core';
 
-const RegisterForm = props => (
+const RegisterForm = () => (
 	<div>
 		<TextField
 			required
@@ -45,8 +35,8 @@ const RegisterForm = props => (
 		<FormControl component="fieldset">
 			<FormLabel component="legend">Role</FormLabel>
 			<RadioGroup defaultValue="beelover" name="role">
-				<FormControlLabel value="beelover" control={<Radio />} label="BeeLover" />
-				<FormControlLabel value="beekeeper" control={<Radio />} label="BeeKeeper" />
+				<FormControlLabel value="beelover" control={<Radio/>} label="BeeLover"/>
+				<FormControlLabel value="beekeeper" control={<Radio/>} label="BeeKeeper"/>
 			</RadioGroup>
 		</FormControl>
 		<Button

@@ -1,10 +1,7 @@
 import React from 'react';
-import {
-	Button,
-	TextField
-} from '@material-ui/core';
+import {Button, TextField} from '@material-ui/core';
 
-const LoginForm = props => (
+const LoginForm = () => (
 	<div>
 		<TextField
 			required
