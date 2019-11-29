@@ -2,11 +2,13 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint components/**/*.js pages/*.js"
   },
   "dependencies": {
     "@material-ui/core": "^4.7.0",
     "@material-ui/icons": "^4.5.1",
+    "eslint-plugin-react": "^7.17.0",
     "next": "^9.1.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"

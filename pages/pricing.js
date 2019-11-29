@@ -252,7 +252,7 @@ export default function Pricing() {
               <CardContent>
                 <div className={classes.cardPricing}>
                   <Typography component="h2" variant="h4" color="textPrimary">
-                    Machado's Apiary
+                    Machado&apos;s Apiary
                   </Typography>
                 </div>
                 <CardActions>
@@ -271,7 +271,7 @@ export default function Pricing() {
                 <CardContent>
                   <div className={classes.cardPricing}>
                     <Typography component="h2" variant="h4" color="textPrimary">
-                      Gonçalves' Apiary
+                      Gonçalves&apos; Apiary
                     </Typography>
                   </div>
                   <CardActions>
@@ -313,7 +313,7 @@ export default function Pricing() {
                 <CardContent>
                   <div className={classes.cardPricing}>
                     <Typography component="h2" variant="h4" color="textPrimary">
-                      Resende's Apiary
+                      Resende&apos;s Apiary
                     </Typography>
                   </div>
                   <CardActions>
