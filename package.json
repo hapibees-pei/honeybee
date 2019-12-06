@@ -8,29 +8,15 @@
   "dependencies": {
     "@material-ui/core": "^4.7.0",
     "@material-ui/icons": "^4.5.1",
-<<<<<<< HEAD
-<<<<<<< HEAD
-    "leaflet": "^1.6.0",
-    "leaflet.markercluster": "^1.4.1",
-=======
->>>>>>> 1ae5e65... eslint added
-=======
-    "leaflet": "^1.6.0",
-    "leaflet.markercluster": "^1.4.1",
->>>>>>> 117c71f04e34aef1fc52ba817b10806abe9a0919
-    "eslint-plugin-react": "^7.17.0",
-    "leaflet": "^1.6.0",
-    "leaflet.markercluster": "^1.4.1",
-    "eslint-plugin-react": "^7.17.0",
-    "next": "^9.1.4",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-leaflet": "^2.6.0",
     "@zeit/next-css": "^1.0.1",
+    "eslint-plugin-react": "^7.17.0",
+    "leaflet": "^1.6.0",
+    "leaflet.markercluster": "^1.4.1",
     "moment": "^2.24.0",
     "next": "^9.1.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-leaflet": "^2.6.0",
     "react-vis": "^1.11.7"
   },
   "devDependencies": {
