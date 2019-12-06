@@ -9,10 +9,15 @@
     "@material-ui/core": "^4.7.0",
     "@material-ui/icons": "^4.5.1",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "leaflet": "^1.6.0",
     "leaflet.markercluster": "^1.4.1",
 =======
 >>>>>>> 1ae5e65... eslint added
+=======
+    "leaflet": "^1.6.0",
+    "leaflet.markercluster": "^1.4.1",
+>>>>>>> 117c71f04e34aef1fc52ba817b10806abe9a0919
     "eslint-plugin-react": "^7.17.0",
     "leaflet": "^1.6.0",
     "leaflet.markercluster": "^1.4.1",

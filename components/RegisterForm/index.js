@@ -1,6 +1,7 @@
 import React from 'react';
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import {Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField} from '@material-ui/core';
 
 const RegisterForm = () => (
@@ -24,6 +25,11 @@ import {Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Tex
 
 const RegisterForm = () => (
 >>>>>>> 1ae5e65... eslint added
+=======
+import {Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField} from '@material-ui/core';
+
+const RegisterForm = () => (
+>>>>>>> 117c71f04e34aef1fc52ba817b10806abe9a0919
 	<div>
 		<TextField
 			required
@@ -59,6 +65,7 @@ const RegisterForm = () => (
 			<RadioGroup defaultValue="beelover" name="role">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 				<FormControlLabel value="beelover" control={<Radio/>} label="BeeLover"/>
 				<FormControlLabel value="beekeeper" control={<Radio/>} label="BeeKeeper"/>
 =======
@@ -69,6 +76,10 @@ const RegisterForm = () => (
 				<FormControlLabel value="beelover" control={<Radio/>} label="BeeLover"/>
 				<FormControlLabel value="beekeeper" control={<Radio/>} label="BeeKeeper"/>
 >>>>>>> 1ae5e65... eslint added
+=======
+				<FormControlLabel value="beelover" control={<Radio/>} label="BeeLover"/>
+				<FormControlLabel value="beekeeper" control={<Radio/>} label="BeeKeeper"/>
+>>>>>>> 117c71f04e34aef1fc52ba817b10806abe9a0919
 			</RadioGroup>
 		</FormControl>
 		<Button

@@ -1,6 +1,7 @@
 import React from 'react';
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import {Button, TextField} from '@material-ui/core';
 
 const LoginForm = () => (
@@ -17,6 +18,11 @@ import {Button, TextField} from '@material-ui/core';
 
 const LoginForm = () => (
 >>>>>>> 1ae5e65... eslint added
+=======
+import {Button, TextField} from '@material-ui/core';
+
+const LoginForm = () => (
+>>>>>>> 117c71f04e34aef1fc52ba817b10806abe9a0919
 	<div>
 		<TextField
 			required
