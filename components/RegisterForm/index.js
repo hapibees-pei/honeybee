@@ -9,7 +9,7 @@ import {
   TextField
 } from "@material-ui/core";
 
-const RegisterForm = () => (
+const RegisterForm = props => (
   <div>
     <TextField
       required
@@ -20,6 +20,7 @@ const RegisterForm = () => (
       key="name"
       autoComplete="name"
       label="Name"
+      onChange={props.onChangeInput("name")}
     />
     <TextField
       required
@@ -29,6 +30,7 @@ const RegisterForm = () => (
       key="email"
       autoComplete="email"
       label="Email"
+      onChange={props.onChangeInput("email")}
     />
     <TextField
       required
@@ -39,10 +41,22 @@ const RegisterForm = () => (
       type="password"
       autoComplete="current-password"
       label="Password"
+      onChange={props.onChangeInput("password")}
     />
-    <FormControl component="fieldset">
+    <TextField
+      required
+      fullWidth
+      margin="normal"
+      id="password_confirmation"
+      key="password_confirmation"
+      type="password"
+      autoComplete="password_confirmation"
+      label="Confirm Password"
+      onChange={props.onChangeInput("password_confirmation")}
+    />
+    <FormControl required component="fieldset">
       <FormLabel component="legend">Role</FormLabel>
-      <RadioGroup defaultValue="beelover" name="role">
+      <RadioGroup name="role" onChange={props.onChangeInput("role")}>
         <FormControlLabel
           value="beelover"
           control={<Radio />}
@@ -55,7 +69,7 @@ const RegisterForm = () => (
         />
       </RadioGroup>
     </FormControl>
-    <Button fullWidth variant="contained">
+    <Button onClick={props.onSubmitRegister} fullWidth variant="contained">
       Register
     </Button>
   </div>

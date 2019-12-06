@@ -1,8 +1,9 @@
 import React from "react";
-import { Button, TextField } from "@material-ui/core";
+import { Button, TextField, Container } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
 
-const LoginForm = () => (
-  <div>
+const LoginForm = props => (
+  <Container>
     <TextField
       required
       fullWidth
@@ -12,6 +13,7 @@ const LoginForm = () => (
       key="email"
       autoComplete="email"
       label="Email"
+      onChange={props.onChangeInput("email")}
     />
     <TextField
       required
@@ -22,11 +24,12 @@ const LoginForm = () => (
       type="password"
       autoComplete="current-password"
       label="Password"
+      onChange={props.onChangeInput("password")}
     />
-    <Button fullWidth variant="contained">
+    <Button onClick={props.onSubmitLogin} fullWidth variant="contained">
       Login
     </Button>
-  </div>
+  </Container>
 );
 
 export default LoginForm;

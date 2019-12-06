@@ -4,7 +4,6 @@ import {
   Toolbar,
   Typography,
   Link,
-  CardMedia
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -40,21 +39,21 @@ function Header() {
           noWrap
           className={classes.toolbarLogo}
         >
-          hapibees
+          Hapibees
         </Typography>
         <nav>
           <Link
             variant="button"
             color="textPrimary"
-            href="#"
+            href="/register"
             className={classes.link}
           >
             Support
           </Link>
         </nav>
         <Button
-          href="#"
-          color="primary"
+          href="/login"
+          color="secondary"
           variant="outlined"
           className={classes.link}
         >
