@@ -4,22 +4,24 @@ import {
   Toolbar,
   Typography,
   Link,
+  Container,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import Logo from "../../assets/images/logo/black_on_transparent.png"
 
 const useStyles = makeStyles(theme => ({
   appBar: {
-    borderBottom: `1px solid ${theme.palette.divider}`
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    backgroundColor: `rgb(252, 195, 34)`
   },
   toolbar: {
-    flexWrap: "wrap",
-    backgroundColor: `rgb(252, 195, 34)`
+    flexWrap: "wrap"
   },
   toolbarLogo: {
     flexGrow: 1
   },
   link: {
-    margin: theme.spacing(1, 1.5)
+    margin: theme.spacing(3.5, 1.5)
   }
 }));
 
@@ -32,34 +34,36 @@ function Header() {
       elevation={0}
       className={classes.appBar}
     >
-      <Toolbar className={classes.toolbar}>
-        <Typography
-          variant="h6"
-          color="inherit"
-          noWrap
-          className={classes.toolbarLogo}
-        >
-          Hapibees
-        </Typography>
-        <nav>
-          <Link
-            variant="button"
-            color="textPrimary"
-            href="/register"
+      <Container maxWidth="md">
+        <Toolbar className={classes.toolbar}>
+          <Link href="/">
+            <img src={Logo} height="40px"/>
+          </Link>
+          <Typography
+            variant="h5"
+            color="inherit"
+            noWrap
+            className={classes.toolbarLogo}
+          >
+          </Typography>
+          <Button
+            href="/login"
+            color="secondary"
+            variant="outlined"
             className={classes.link}
           >
-            Support
-          </Link>
-        </nav>
-        <Button
-          href="/login"
-          color="secondary"
-          variant="outlined"
-          className={classes.link}
-        >
-          Login
-        </Button>
-      </Toolbar>
+            login
+          </Button>
+          <Button
+              href="/register"
+              color="secondary"
+              variant="outlined"
+              className={classes.link}
+          >
+            register
+          </Button>
+        </Toolbar>
+      </Container>
     </AppBar>
   );
 }

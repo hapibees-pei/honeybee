@@ -49,46 +49,48 @@ class RegisterPage extends Component {
   };
 
   handleRegisterResponse(res) {
-    // if (res.data.hasOwnProperty("jwt")) {
-    //   this.setState({ error: "" });
-    //   localStorage.jwt = res.jwt;
-    //   window.location.pathname = "/login";
-    // } else {
-    //   this.setState({ error: "Register error" });
-    // }
+    window.location.pathname = '/login';
   }
 
   handleErrorResponse(error) {
-    // if (error.response) {
-    //   // status code outside 2XX
-    //   if (error.response.data.hasOwnProperty("error")) {
-    //     this.setState({ error: error.response.data.error });
-    //   } else if (error.response.data.hasOwnProperty("errors")) {
-    //     this.setState({ error: "Invalid token" });
-    //   } else {
-    //     this.setState({ error: "Register error" });
-    //   }
-    // } else if (error.request) {
-    //   this.setState({ error: "Network Error" });
-    // }
+    let errorMsg = '';
+    if (error.response) {
+      // status code outside 2XX
+      errorMsg = 'Register error';
+      if (error.response.data.hasOwnProperty('errors')) {
+        let errors = error.response.data.errors;
+        errorMsg += ': ' + Object.keys(errors)
+          .map(k => k += ' ' + errors[k][0])
+          .join('; ');
+      }
+    } else if (error.request) {
+      // status code 2XX
+      errorMsg = 'Network Error';
+    }
+    console.log(errorMsg);
+    this.setState({ error: errorMsg + '.' });
   }
 
   handleRegisterSubmit() {
-    // const api_endpoint =
-    //   process.env.REACT_APP_ENDPOINT + process.env.REACT_APP_API_AUTH_SIGN_UP;
+    // todo: put in .env => process.env.REACT_APP_API
+    const REACT_APP_API = 'http://localhost:3001/api';
+    const endpoint = REACT_APP_API  + '/auth';
+
     let user = {
-      name: this.state.name,
-      email: this.state.email.trim(),
-      password: this.state.password,
-      password_confirmation: this.state.password_confirmation,
-      role: this.state.role,
+      'user': {
+        'name': this.state.name,
+        'email': this.state.email.trim(),
+        'password': this.state.password,
+        'password_confirmation': this.state.password_confirmation,
+        'role': this.state.role
+      }
     };
-    console.log(user);
-    // axios
-    //   .post(api_endpoint, user)
-    //   .then(res => this.handleRegisterResponse(res))
-    //   .catch(error => this.handleErrorResponse(error));
-  }
+
+    axios
+      .post(endpoint, user)
+      .then(res => this.handleRegisterResponse(res))
+      .catch(error => this.handleErrorResponse(error));
+  };
 
   render() {
     const { classes } = this.props;
@@ -98,7 +100,7 @@ class RegisterPage extends Component {
         <Header />
         <Container maxWidth="sm" className={classes.registerContent}>
           <Typography component="h1" variant="h2" align="center">
-            Beegister
+            Register
           </Typography>
           <RegisterForm onChangeInput={this.handleInputChange} onSubmitRegister={this.handleRegisterSubmit}/>
         </Container>
