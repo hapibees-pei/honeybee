@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import RegisterForm from "../components/RegisterForm";
-import { CssBaseline, Typography, Container } from "@material-ui/core";
+import { CssBaseline, Typography, Container, Button, Grid, CardContent, Card, CardActions } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 // import { withStyles } from '@material-ui/styles';
 import axios from "axios";
@@ -20,14 +20,21 @@ const styles = theme => ({
       listStyle: "none"
     }
   },
-  registerContent: {
+  content: {
     padding: theme.spacing(8, 0, 6),
     marginTop: 0,
     marginBottom: 50
-  }
+  },
+  cardHive: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "baseline",
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
 });
 
-class RegisterPage extends Component {
+class BeekeeperPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -96,11 +103,60 @@ class RegisterPage extends Component {
       <React.Fragment>
         <CssBaseline />
         <Header />
-        <Container maxWidth="sm" className={classes.registerContent}>
+        <Container maxWidth="sm" className={classes.content}>
           <Typography component="h1" variant="h2" align="center">
-            Beegister
+            Hives
           </Typography>
-          <RegisterForm onChangeInput={this.handleInputChange} onSubmitRegister={this.handleRegisterSubmit}/>
+          <Button
+            fullWidth
+            variant="contained"
+            color="warning"
+            className={classes.cardHive}
+          >
+            ADD HIVE
+          </Button>
+          <Grid container spacing={5} alignItems="center">
+            <Grid item xs={12} sm={6} md={6}>
+              <Card>
+                <CardContent>
+                  <Typography
+                    className={classes.cardHive}
+                    component="h2"
+                    variant="h4"
+                    color="textPrimary"
+                  >
+                    Hive 1
+                  </Typography>
+                  <CardActions>
+                    <Button fullWidth variant="contained" color="warning">
+                      See statistics
+                    </Button>
+                  </CardActions>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <Card>
+                <CardContent>
+                  <Typography
+                    className={classes.cardHive}
+                    component="h2"
+                    variant="h4"
+                    color="textPrimary"
+                  >
+                    Hive 2
+                  </Typography>
+                  <CardActions>
+                    <Button fullWidth variant="contained" color="warning">
+                      See statistics
+                    </Button>
+                  </CardActions>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+
+          {/* <RegisterForm onChangeInput={this.handleInputChange} onSubmitRegister={this.handleRegisterSubmit}/> */}
         </Container>
         <Footer />
       </React.Fragment>
@@ -108,4 +164,4 @@ class RegisterPage extends Component {
   }
 }
 
-export default withStyles(styles)(RegisterPage);
+export default withStyles(styles)(BeekeeperPage);
