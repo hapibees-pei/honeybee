@@ -1,12 +1,22 @@
 import React, { Component } from "react";
-import RegisterForm from "../components/RegisterForm";
-import { CssBaseline, Typography, Container, Button, Grid, CardContent, Card, CardActions, TextField } from "@material-ui/core";
+import RegisterForm from "../../components/RegisterForm";
+import {
+  CssBaseline,
+  Typography,
+  Container,
+  Button,
+  Grid,
+  CardContent,
+  Card,
+  CardActions,
+  TextField
+} from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 // import { withStyles } from '@material-ui/styles';
 import axios from "axios";
-import { uuid } from 'uuidv4';
+import { uuid } from "uuidv4";
 
-import { Footer, Header } from "../components";
+import { Footer, Header } from "../../components";
 
 const styles = theme => ({
   "@global": {
@@ -26,13 +36,13 @@ const styles = theme => ({
     marginTop: 0,
     marginBottom: 50
   },
-  cardHive: {
+  cardApiary: {
     display: "flex",
     justifyContent: "center",
     alignItems: "baseline",
     marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
+    marginBottom: theme.spacing(2)
+  }
 });
 
 class BeekeeperPage extends Component {
@@ -44,21 +54,20 @@ class BeekeeperPage extends Component {
       role: "",
       password: "",
       password_confirmation: "",
-      hiveForm: false,
+      apiaryForm: false,
       error: "",
-      hive: {
+      apiary: {
         name: "",
-        description: "",
-        bee_number: "",
-        sensor_id: 0,
+        ip: "",
+        port: 0
       }
     };
-    this.handleAddHive = this.handleAddHive.bind(this)
+    this.handleAddApiary = this.handleAddApiary.bind(this);
   }
 
-  handleHiveInputChange = name => event => {
+  handleApiaryInputChange = name => event => {
     this.setState({
-      [name]: event.target.value 
+      [name]: event.target.value
     });
   };
 
@@ -98,10 +107,7 @@ class BeekeeperPage extends Component {
     // }
   }
 
-
-
-
-  handleAddHiveResponse(res) {
+  handleAddApiaryResponse(res) {
     // if (res.data.hasOwnProperty("jwt")) {
     //   this.setState({ error: "" });
     //   localStorage.jwt = res.jwt;
@@ -111,7 +117,7 @@ class BeekeeperPage extends Component {
     // }
   }
 
-  handleAddHiveErrorResponse(error) {
+  handleAddApiaryErrorResponse(error) {
     // if (error.response) {
     //   // status code outside 2XX
     //   if (error.response.data.hasOwnProperty("error")) {
@@ -126,7 +132,7 @@ class BeekeeperPage extends Component {
     // }
   }
 
-  handleAddHive() {
+  handleAddApiary() {
     // const api_endpoint =
     //   process.env.REACT_APP_ENDPOINT + process.env.REACT_APP_API_AUTH_SIGN_UP;
     // let user = {
@@ -145,14 +151,14 @@ class BeekeeperPage extends Component {
 
   render() {
     const { classes } = this.props;
-    const { hiveForm } = this.state;
+    const { apiaryForm } = this.state;
     return (
       <React.Fragment>
         <CssBaseline />
         <Header />
         <Container maxWidth="sm" className={classes.content}>
           <Typography component="h1" variant="h2" align="center">
-            Hives
+            Apiary
           </Typography>
           <Container>
             <TextField
@@ -164,90 +170,39 @@ class BeekeeperPage extends Component {
               key="name"
               autoComplete="name"
               label="Name"
-              onChange={this.handleHiveInputChange("name")}
+              onChange={this.handleApiaryInputChange("name")}
             />
             <TextField
               fullWidth
+              required
               margin="normal"
-              id="description"
-              key="description"
-              autoComplete="description"
-              label="Description"
-              onChange={this.handleHiveInputChange("description")}
+              id="ip"
+              key="ip"
+              autoComplete="ip"
+              label="IP"
+              onChange={this.handleApiaryInputChange("ip")}
             />
             <TextField
               required
               fullWidth
               margin="normal"
-              id="bee_number"
-              key="bee_number"
+              id="port"
+              key="port"
               type="number"
-              autoComplete="bee_number"
-              label="Bee Number"
-              onChange={this.handleHiveInputChange("bee_number")}
-            />
-            <TextField
-              required
-              fullWidth
-              margin="normal"
-              id="sensor_id"
-              key="sensor_id"
-              autoComplete="sensor_id"
-              label="Sensor ID"
-              defaultValue={uuid()}
-              onChange={this.handleHiveInputChange("sensor_id")}
+              autoComplete="port"
+              label="Port"
+              onChange={this.handleApiaryInputChange("port")}
             />
             <Button
               fullWidth
               variant="contained"
               color="warning"
-              className={classes.cardHive}
+              className={classes.cardApiary}
             >
-              ADD HIVE
+              ADD APIARY
             </Button>
           </Container>
-          <Grid container spacing={5} alignItems="center">
-            <Grid item xs={12} sm={6} md={6}>
-              <Card>
-                <CardContent>
-                  <Typography
-                    className={classes.cardHive}
-                    component="h2"
-                    variant="h4"
-                    color="textPrimary"
-                  >
-                    Hive 1
-                  </Typography>
-                  <CardActions>
-                    <Button fullWidth variant="contained" color="warning">
-                      See statistics
-                    </Button>
-                  </CardActions>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={6}>
-              <Card>
-                <CardContent>
-                  <Typography
-                    className={classes.cardHive}
-                    component="h2"
-                    variant="h4"
-                    color="textPrimary"
-                  >
-                    Hive 2
-                  </Typography>
-                  <CardActions>
-                    <Button fullWidth variant="contained" color="warning">
-                      See statistics
-                    </Button>
-                  </CardActions>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-
-          {/* <RegisterForm handleHiveInputChange={this.handleInputChange} onSubmitRegister={this.handleRegisterSubmit}/> */}
+          {/* <RegisterForm handleApiaryInputChange={this.handleInputChange} onSubmitRegister={this.handleRegisterSubmit}/> */}
         </Container>
         <Footer />
       </React.Fragment>
