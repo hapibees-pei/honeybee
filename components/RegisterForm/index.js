@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Button,
+  Container,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -10,7 +11,22 @@ import {
 } from "@material-ui/core";
 
 const RegisterForm = props => (
-  <div>
+  <Container>
+    <FormControl required component="fieldset">
+        <FormLabel component="legend">Role</FormLabel>
+        <RadioGroup name="role" onChange={props.onChangeInput("role")}>
+            <FormControlLabel
+                value="beelover"
+                control={<Radio />}
+                label="BeeLover"
+            />
+            <FormControlLabel
+                value="beekeeper"
+                control={<Radio />}
+                label="BeeKeeper"
+            />
+        </RadioGroup>
+    </FormControl>
     <TextField
       required
       fullWidth
@@ -54,25 +70,10 @@ const RegisterForm = props => (
       label="Confirm Password"
       onChange={props.onChangeInput("password_confirmation")}
     />
-    <FormControl required component="fieldset">
-      <FormLabel component="legend">Role</FormLabel>
-      <RadioGroup name="role" onChange={props.onChangeInput("role")}>
-        <FormControlLabel
-          value="beelover"
-          control={<Radio />}
-          label="BeeLover"
-        />
-        <FormControlLabel
-          value="beekeeper"
-          control={<Radio />}
-          label="BeeKeeper"
-        />
-      </RadioGroup>
-    </FormControl>
     <Button onClick={props.onSubmitRegister} fullWidth variant="contained">
       Register
     </Button>
-  </div>
+  </Container>
 );
 
 export default RegisterForm;
