@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import RegisterForm from "../components/RegisterForm";
-import { CssBaseline, Typography, Container, Button, Grid, CardContent, Card, CardActions } from "@material-ui/core";
+import { CssBaseline, Typography, Container, Button, Grid, CardContent, Card, CardActions, TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 // import { withStyles } from '@material-ui/styles';
 import axios from "axios";
+import { uuid } from 'uuidv4';
 
 import { Footer, Header } from "../components";
 
@@ -43,19 +44,64 @@ class BeekeeperPage extends Component {
       role: "",
       password: "",
       password_confirmation: "",
-      error: ""
+      hiveForm: false,
+      error: "",
+      hive: {
+        name: "",
+        description: "",
+        bee_number: "",
+        sensor_id: 0,
+      }
     };
-    this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this)
+    this.handleAddHive = this.handleAddHive.bind(this)
   }
 
-
-  handleInputChange = name => event => {
+  handleHiveInputChange = name => event => {
     this.setState({
       [name]: event.target.value 
     });
   };
 
-  handleRegisterResponse(res) {
+  componentDidMount() {
+    // const api_endpoint = process.env.REACT_APP_ENDPOINT + process.env.REACT_APP_API_USER
+    // // 'http://88e3f2dc.ngrok.io/api/user'
+    // let config = {
+    //   headers: {
+    //     Authorization: 'Bearer ' + localStorage.getItem('jwt')
+    //   }
+    // }
+    // axios
+    //   .get(api_endpoint, config)
+    //   .then(res => this.handleUserResponse(res))
+    //   .catch(error => this.handleErrorResponse(error))
+    // // console.log(res)
+  }
+
+  handleApiaryResponse(res) {
+    // if (res.data.hasOwnProperty('user')) {
+    //   this.setState({ user: res.data.user, error: '' })
+    // }
+  }
+
+  handleApiaryErrorResponse(error) {
+    // if (error.response && error.response.data.hasOwnProperty('error')) {
+    //   if (
+    //     error.response.data.error === 'invalid_token' ||
+    //     error.response.data.error === 'unauthenticated'
+    //   ) {
+    //     window.location.pathname = '/login'
+    //   } else if (error.response.data.error === 'Internal Server Error') {
+    //     // lmao 500
+    //   }
+    // } else {
+    //   this.setState({ error: 'Network Error' })
+    // }
+  }
+
+
+
+
+  handleAddHiveResponse(res) {
     // if (res.data.hasOwnProperty("jwt")) {
     //   this.setState({ error: "" });
     //   localStorage.jwt = res.jwt;
@@ -65,7 +111,7 @@ class BeekeeperPage extends Component {
     // }
   }
 
-  handleErrorResponse(error) {
+  handleAddHiveErrorResponse(error) {
     // if (error.response) {
     //   // status code outside 2XX
     //   if (error.response.data.hasOwnProperty("error")) {
@@ -80,16 +126,16 @@ class BeekeeperPage extends Component {
     // }
   }
 
-  handleRegisterSubmit() {
+  handleAddHive() {
     // const api_endpoint =
     //   process.env.REACT_APP_ENDPOINT + process.env.REACT_APP_API_AUTH_SIGN_UP;
-    let user = {
-      name: this.state.name,
-      email: this.state.email.trim(),
-      password: this.state.password,
-      password_confirmation: this.state.password_confirmation,
-      role: this.state.role,
-    };
+    // let user = {
+    //   name: this.state.name,
+    //   email: this.state.email.trim(),
+    //   password: this.state.password,
+    //   password_confirmation: this.state.password_confirmation,
+    //   role: this.state.role,
+    // };
     console.log(user);
     // axios
     //   .post(api_endpoint, user)
@@ -99,6 +145,7 @@ class BeekeeperPage extends Component {
 
   render() {
     const { classes } = this.props;
+    const { hiveForm } = this.state;
     return (
       <React.Fragment>
         <CssBaseline />
@@ -107,14 +154,58 @@ class BeekeeperPage extends Component {
           <Typography component="h1" variant="h2" align="center">
             Hives
           </Typography>
-          <Button
-            fullWidth
-            variant="contained"
-            color="warning"
-            className={classes.cardHive}
-          >
-            ADD HIVE
-          </Button>
+          <Container>
+            <TextField
+              required
+              fullWidth
+              autoFocus
+              margin="normal"
+              id="name"
+              key="name"
+              autoComplete="name"
+              label="Name"
+              onChange={this.handleHiveInputChange("name")}
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              id="description"
+              key="description"
+              autoComplete="description"
+              label="Description"
+              onChange={this.handleHiveInputChange("description")}
+            />
+            <TextField
+              required
+              fullWidth
+              margin="normal"
+              id="bee_number"
+              key="bee_number"
+              type="number"
+              autoComplete="bee_number"
+              label="Bee Number"
+              onChange={this.handleHiveInputChange("bee_number")}
+            />
+            <TextField
+              required
+              fullWidth
+              margin="normal"
+              id="sensor_id"
+              key="sensor_id"
+              autoComplete="sensor_id"
+              label="Sensor ID"
+              defaultValue={uuid()}
+              onChange={this.handleHiveInputChange("sensor_id")}
+            />
+            <Button
+              fullWidth
+              variant="contained"
+              color="warning"
+              className={classes.cardHive}
+            >
+              ADD HIVE
+            </Button>
+          </Container>
           <Grid container spacing={5} alignItems="center">
             <Grid item xs={12} sm={6} md={6}>
               <Card>
@@ -156,7 +247,7 @@ class BeekeeperPage extends Component {
             </Grid>
           </Grid>
 
-          {/* <RegisterForm onChangeInput={this.handleInputChange} onSubmitRegister={this.handleRegisterSubmit}/> */}
+          {/* <RegisterForm handleHiveInputChange={this.handleInputChange} onSubmitRegister={this.handleRegisterSubmit}/> */}
         </Container>
         <Footer />
       </React.Fragment>
