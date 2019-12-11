@@ -10,12 +10,27 @@ import {
   YAxis,
   HorizontalGridLines,
   VerticalGridLines,
-  LineSeries
+  LineSeries,
+  FlexibleXYPlot,
+  FlexibleWidthXYPlot,
+  FlexibleHeightXYPlot
 } from 'react-vis';
 import my_data from '../Plot/test.json';
 import my_data2 from '../Plot/test2.json';
+import { Container } from '@material-ui/core';
+import { withStyles } from "@material-ui/core/styles";
 
 const TYPE = [my_data, my_data2, my_data, my_data2, my_data];
+
+const styles = theme => ({
+  ButtonContent: {
+    padding: theme.spacing(1, 5, 6),
+    marginTop:6,
+  }
+});
+
+
+
 
 const processLabel = (data) => {
   const newdata = data.map (row => (
@@ -62,11 +77,12 @@ class LineChart extends Component {
   render (){
     const { loading, data } = this.state;
     const { labels, values } = data;
-
+    const { classes } = this.props;
+    
     return (
       <div>
       {!loading ?  
-        <XYPlot width={1000} height={500} animation={true}>
+        <FlexibleXYPlot width={500} height={400} animation={true}>
         <HorizontalGridLines style={{stroke: '#B7E9ED'}} />
         <VerticalGridLines style={{stroke: '#B7E9ED'}} />
         <XAxis
@@ -89,43 +105,33 @@ class LineChart extends Component {
             strokeWidth: 4
             }}
         />
-        <LineSeries className="second-series" data={null} />
-        <LineSeries
-            className="third-series"
-            curve={'curveMonotoneX'}
-            data={[{x: 17, y: 100}, {x: 2, y: 4}, {x: 3, y: 2}, {x: 4, y: 15}]}
-            strokeDasharray="7, 3"
-        />
-        <LineSeries
-            className="fourth-series"
-            curve={curveCatmullRom.alpha(0.5)}
-            data={[{x: 1, y: 7}, {x: 2, y: 11}, {x: 3, y: 9}, {x: 4, y: 2}]}
-        />
-        </XYPlot>
+        
+        </FlexibleXYPlot>
         :''}
 
-
-        <ButtonGroup aria-label="Basic example">
-            <Button variant="outlined" color="primary" onClick={() => this.handleChangeData(0)}>
-            Temperature
-            </Button>
-            <Button variant="outlined" color="primary" onClick={() => this.handleChangeData(1)}>
-            Pressure
-            </Button>
-            <Button variant="outlined" color="primary" onClick={() => this.handleChangeData(2)}>
-            Light
-            </Button>
-            <Button variant="outlined" color="primary" onClick={() => this.handleChangeData(3)}>
-            Noise
-            </Button>
-            <Button variant="outlined" color="primary" onClick={() => this.handleChangeData(4)}>
-            Accelerometer
-            </Button>
-        </ButtonGroup>
+        
+          <ButtonGroup aria-label="Basic example"  className={classes.ButtonContent} size="small">
+              <Button  variant="outlined" color="secondary" onClick={() => this.handleChangeData(0)}>
+              Temperature
+              </Button>
+              <Button variant="outlined" color="secondary" onClick={() => this.handleChangeData(1)}>
+              Pressure
+              </Button>
+              <Button variant="outlined" color="secondary" onClick={() => this.handleChangeData(2)}>
+              Light
+              </Button>
+              <Button variant="outlined" color="secondary" onClick={() => this.handleChangeData(3)}>
+              Noise
+              </Button>
+              <Button variant="outlined" color="secondary" onClick={() => this.handleChangeData(4)}>
+              Accelerometer
+              </Button>
+          </ButtonGroup>
+     
         
         </div>    
     );
     }
 }
 
-export default LineChart;
+export default withStyles(styles)(LineChart);
