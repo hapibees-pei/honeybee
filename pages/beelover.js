@@ -34,7 +34,7 @@ const styles = theme => ({
   },
 });
 
-class BeekeeperPage extends Component {
+class BeeloverPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -156,4 +156,4 @@ class BeekeeperPage extends Component {
   }
 }
 
-export default withStyles(styles)(BeekeeperPage);
+export default withStyles(styles)(BeeloverPage);

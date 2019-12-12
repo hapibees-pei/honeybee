@@ -49,6 +49,7 @@ class LoginPage extends Component {
     if (res.data.hasOwnProperty('token')) {
       this.setState({ error: '' });
       localStorage.token = res.data.token;
+      localStorage.user = this.state.email;
       //TODO: redirect to role
       // window.location.pathname = '/' + res.data.role;
       window.location.pathname = '/';

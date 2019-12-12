@@ -24,6 +24,7 @@
     "react-vis": "^1.11.7"
   },
   "devDependencies": {
-    "style-loader": "^1.0.1"
+    "style-loader": "^1.0.1",
+    "uuidv4": "^6.0.0"
   }
 }
