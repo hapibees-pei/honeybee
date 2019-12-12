@@ -52,7 +52,8 @@ class BeekeeperPage extends Component {
       name: "",
       role: "",
       apiaryForm: false,
-      error: "",
+      success: false,
+      error: false,
       apiary: {
         name: "",
         location: {},
@@ -104,6 +105,8 @@ class BeekeeperPage extends Component {
   }
 
   handleAddApiaryResponse(res) {
+    // console.log(res);
+    this.setState({ success: true });
     // if (res.data.hasOwnProperty("jwt")) {
     //   this.setState({ error: "" });
     //   localStorage.jwt = res.jwt;
@@ -114,6 +117,10 @@ class BeekeeperPage extends Component {
   }
 
   handleAddApiaryErrorResponse(error) {
+    // console.log(error);
+
+    this.setState({ error: true });
+
     // if (error.response) {
     //   // status code outside 2XX
     //   if (error.response.data.hasOwnProperty("error")) {
@@ -134,22 +141,22 @@ class BeekeeperPage extends Component {
 
     let config = {
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
+        Authorization: "Bearer " + localStorage.token,
+        'Content-Type': 'application/json',
       }
     };
 
     let apiary = {
       apiary: {
-        location: this.state.apiary.location,
         ip: this.state.apiary.ip,
-        port: this.state.apiary.port,
+        port: this.state.apiary.port
       }
     };
 
     console.log(apiary);
 
     axios
-      .get(api_endpoint, config)
+      .post(api_endpoint, apiary, config)
       .then(res => this.handleAddApiaryResponse(res))
       .catch(error => this.handleAddApiaryErrorResponse(error));
     // console.log(res)
@@ -227,6 +234,26 @@ class BeekeeperPage extends Component {
               ADD APIARY
             </Button>
           </Container>
+          {this.state.success && (
+            <Typography
+              color="primary"
+              component="h1"
+              variant="body1"
+              align="center"
+            >
+              Apiary was added successfully
+            </Typography>
+          )}
+          {this.state.error && (
+            <Typography
+              color="error"
+              component="h1"
+              variant="body1"
+              align="center"
+            >
+              This Apiary is already registered
+            </Typography>
+          )}
           {/* <RegisterForm handleApiaryInputChange={this.handleInputChange} onSubmitRegister={this.handleRegisterSubmit}/> */}
         </Container>
         <Footer />
