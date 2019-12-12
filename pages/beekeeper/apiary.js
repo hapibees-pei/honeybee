@@ -50,14 +50,12 @@ class BeekeeperPage extends Component {
     super(props);
     this.state = {
       name: "",
-      email: "",
       role: "",
-      password: "",
-      password_confirmation: "",
       apiaryForm: false,
       error: "",
       apiary: {
         name: "",
+        location: {},
         ip: "",
         port: 0
       }
@@ -72,18 +70,16 @@ class BeekeeperPage extends Component {
   };
 
   componentDidMount() {
-    // const api_endpoint = process.env.REACT_APP_ENDPOINT + process.env.REACT_APP_API_USER
-    // // 'http://88e3f2dc.ngrok.io/api/user'
-    // let config = {
-    //   headers: {
-    //     Authorization: 'Bearer ' + localStorage.getItem('jwt')
-    //   }
-    // }
-    // axios
-    //   .get(api_endpoint, config)
-    //   .then(res => this.handleUserResponse(res))
-    //   .catch(error => this.handleErrorResponse(error))
-    // // console.log(res)
+    var params = {};
+    location.search
+      .slice(1)
+      .split("&")
+      .map(a => {
+        params[a.split("=")[0]] = a.split("=")[1];
+      });
+    this.setState({
+      apiary: { ...this.state.apiary, ip: params["ip"], port: +params["port"] }
+    });
   }
 
   handleApiaryResponse(res) {
@@ -133,6 +129,31 @@ class BeekeeperPage extends Component {
   }
 
   handleAddApiary() {
+    const REACT_APP_API = "http://localhost:3001";
+    const api_endpoint = REACT_APP_API + "/api/v1/beekeeper/apiaries";
+
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    };
+
+    let apiary = {
+      apiary: {
+        location: this.state.apiary.location,
+        ip: this.state.apiary.ip,
+        port: this.state.apiary.port,
+      }
+    };
+
+    console.log(apiary);
+
+    axios
+      .get(api_endpoint, config)
+      .then(res => this.handleAddApiaryResponse(res))
+      .catch(error => this.handleAddApiaryErrorResponse(error));
+    // console.log(res)
+
     // const api_endpoint =
     //   process.env.REACT_APP_ENDPOINT + process.env.REACT_APP_API_AUTH_SIGN_UP;
     // let user = {
@@ -142,7 +163,6 @@ class BeekeeperPage extends Component {
     //   password_confirmation: this.state.password_confirmation,
     //   role: this.state.role,
     // };
-    console.log(user);
     // axios
     //   .post(api_endpoint, user)
     //   .then(res => this.handleRegisterResponse(res))
@@ -151,7 +171,9 @@ class BeekeeperPage extends Component {
 
   render() {
     const { classes } = this.props;
-    const { apiaryForm } = this.state;
+    const { apiary, apiaryForm } = this.state;
+    const { ip, port } = apiary;
+
     return (
       <React.Fragment>
         <CssBaseline />
@@ -161,7 +183,7 @@ class BeekeeperPage extends Component {
             Apiary
           </Typography>
           <Container>
-            <TextField
+            {/* <TextField
               required
               fullWidth
               autoFocus
@@ -170,8 +192,8 @@ class BeekeeperPage extends Component {
               key="name"
               autoComplete="name"
               label="Name"
-              onChange={this.handleApiaryInputChange("name")}
-            />
+              // onChange={this.handleApiaryInputChange("name")}
+            /> */}
             <TextField
               fullWidth
               required
@@ -180,24 +202,27 @@ class BeekeeperPage extends Component {
               key="ip"
               autoComplete="ip"
               label="IP"
-              onChange={this.handleApiaryInputChange("ip")}
+              value={ip}
+              // onChange={this.handleApiaryInputChange("ip")}
             />
             <TextField
               required
               fullWidth
               margin="normal"
-              id="port"
-              key="port"
+              // id="port"
+              // key="port"
               type="number"
-              autoComplete="port"
+              // autoComplete="port"
               label="Port"
-              onChange={this.handleApiaryInputChange("port")}
+              value={+port}
+              // onChange={this.handleApiaryInputChange("port")}
             />
             <Button
               fullWidth
               variant="contained"
               color="warning"
               className={classes.cardApiary}
+              onClick={this.handleAddApiary}
             >
               ADD APIARY
             </Button>
