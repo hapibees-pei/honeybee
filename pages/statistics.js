@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import LoginForm from "../components/LoginForm";
 import { CssBaseline, Typography, Container } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
+import Grid from '@material-ui/core/Grid';
 // import { withStyles } from '@material-ui/styles';
 import LineChart from "../components/LineChart/index.js"
+import OverallChart from "../components/OverallChart/index.js"
 import axios from "axios";
 import { Footer, Header } from "../components";
 import { sizing } from '@material-ui/system';
@@ -21,6 +23,9 @@ const styles = theme => ({
       listStyle: "none"
     }
   },
+  root: {
+    flexGrow: 1,
+  },
   StatisticsContent: {
     padding: theme.spacing(8, 0, 6),
     marginTop: 0,
@@ -28,11 +33,10 @@ const styles = theme => ({
   },
   plot: {
     padding: theme.spacing(4, 0, 6),
-    backgroundColor: theme.palette.common.red,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
+    /* display: 'flex', 
+   alignItems: 'center',
+   justifyContent: 'center' */
+  } //// isto nao esta a centrar
 });
 
 
@@ -51,7 +55,7 @@ class LoginPage extends Component {
 
   handleInputChange = name => event => {
     this.setState({
-      [name]: event.target.value 
+      [name]: event.target.value
     });
   };
 
@@ -91,13 +95,24 @@ class LoginPage extends Component {
       <React.Fragment>
         <CssBaseline />
         <Header />
-        <Container maxWidth="sm" className={classes.StatisticsContent}>
+        <Container maxWidth="90%" className={classes.StatisticsContent}>
           <Typography component="h1" variant="h2" align="center">
             Hive X
           </Typography>
-          <Container maxWidth="xl" className={classes.plot}>
-           <LineChart /> 
-          </Container>
+          {/* <Container maxWidth="xl" className={classes.plot}>
+           <OverallChart /> 
+          </Container> */}
+          <div className={classes.root}>
+            <Grid container justify="center"
+              align="center" xs direction="row" spacing={3} className={classes.plot}>
+              <Grid item xs sm>
+                <OverallChart />
+              </Grid>
+              <Grid item xs sm>
+                <LineChart />
+              </Grid>
+            </Grid>
+          </div>
         </Container>
         <Footer />
       </React.Fragment>

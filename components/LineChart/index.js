@@ -1,3 +1,5 @@
+/// <reference path="../Plot/react-vis.d.ts"/>
+
 import React, { Component } from 'react';
 import {curveCatmullRom} from 'd3-shape';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -10,6 +12,7 @@ import {
   YAxis,
   HorizontalGridLines,
   VerticalGridLines,
+  makeWidthFlexible,
   LineSeries,
   FlexibleXYPlot,
   FlexibleWidthXYPlot,
@@ -20,7 +23,7 @@ import my_data2 from '../Plot/test2.json';
 import { Container } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 
-const TYPE = [my_data, my_data2, my_data, my_data2, my_data];
+const TYPE = [my_data, my_data2, my_data, my_data2, my_data, my_data2];
 
 const styles = theme => ({
   ButtonContent: {
@@ -69,6 +72,7 @@ class LineChart extends Component {
   }
 
   componentDidMount(){
+    
     this.handleChangeData(null);
   }
   
@@ -82,6 +86,7 @@ class LineChart extends Component {
     return (
       <div>
       {!loading ?  
+        
         <FlexibleXYPlot width={500} height={400} animation={true}>
         <HorizontalGridLines style={{stroke: '#B7E9ED'}} />
         <VerticalGridLines style={{stroke: '#B7E9ED'}} />
@@ -94,9 +99,9 @@ class LineChart extends Component {
             ticks: {stroke: '#ADDDE1'},
             text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
             }}
-
         />
-        <YAxis title="Y Axis" />
+       
+        <YAxis title="Y Axis" /> 
         <LineSeries
             className="first-series"
             data={values}
@@ -109,24 +114,27 @@ class LineChart extends Component {
         </FlexibleXYPlot>
         :''}
 
-        
-          <ButtonGroup aria-label="Basic example"  className={classes.ButtonContent} size="small">
-              <Button  variant="outlined" color="secondary" onClick={() => this.handleChangeData(0)}>
+          
+          { <div  className={classes.ButtonContent} >
+              <Button  variant="outlined" color="secondary" size="small" onClick={() => this.handleChangeData(0)}>
               Temperature
               </Button>
-              <Button variant="outlined" color="secondary" onClick={() => this.handleChangeData(1)}>
+              <Button variant="outlined" color="secondary" size="small" onClick={() => this.handleChangeData(1)}>
               Pressure
               </Button>
-              <Button variant="outlined" color="secondary" onClick={() => this.handleChangeData(2)}>
+              <Button variant="outlined" color="secondary" size="small" onClick={() => this.handleChangeData(2)}>
               Light
               </Button>
-              <Button variant="outlined" color="secondary" onClick={() => this.handleChangeData(3)}>
+              <Button variant="outlined" color="secondary" size="small" onClick={() => this.handleChangeData(3)}>
               Noise
               </Button>
-              <Button variant="outlined" color="secondary" onClick={() => this.handleChangeData(4)}>
+              <Button variant="outlined" color="secondary" size="small" onClick={() => this.handleChangeData(4)}>
               Accelerometer
               </Button>
-          </ButtonGroup>
+              <Button variant="outlined" color="secondary" size="small"onClick={() => this.handleChangeData(5)}>
+              Humidity
+              </Button>
+          </div> }
      
         
         </div>    
