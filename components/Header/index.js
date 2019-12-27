@@ -95,7 +95,7 @@ function Header(props) {
           <Toolbar className={classes.toolbar}>
             <Link className={classes.toolbarLogo} href="/">
               <img src={Logo} height="40px" />
-            </Link>{" "}
+            </Link>
             <Link
               variant="button"
               color="secondary"

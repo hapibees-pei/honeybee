@@ -12,9 +12,7 @@ import {
   TextField
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-// import { withStyles } from '@material-ui/styles';
 import axios from "axios";
-import { uuid } from "uuidv4";
 
 import { Footer, Header } from "../../components";
 
@@ -45,11 +43,10 @@ const styles = theme => ({
   }
 });
 
-class BeekeeperPage extends Component {
+class ApiaryPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
       role: "",
       apiaryForm: false,
       success: false,
@@ -136,44 +133,30 @@ class BeekeeperPage extends Component {
   }
 
   handleAddApiary() {
-    const REACT_APP_API = "http://localhost:3001";
-    const api_endpoint = REACT_APP_API + "/api/v1/beekeeper/apiaries";
+    const API_ENDPOINT = "http://localhost:3001/api/v1";
+    const APIARY_API = API_ENDPOINT + "/beekeeper/apiaries";
 
     let config = {
       headers: {
         Authorization: "Bearer " + localStorage.token,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json"
       }
     };
-
+    const { name, ip, port } = this.state.apiary;
     let apiary = {
       apiary: {
-        ip: this.state.apiary.ip,
-        port: this.state.apiary.port
+        name: name,
+        ip: ip,
+        port: port
       }
     };
 
     console.log(apiary);
 
     axios
-      .post(api_endpoint, apiary, config)
+      .post(APIARY_API, apiary, config)
       .then(res => this.handleAddApiaryResponse(res))
       .catch(error => this.handleAddApiaryErrorResponse(error));
-    // console.log(res)
-
-    // const api_endpoint =
-    //   process.env.REACT_APP_ENDPOINT + process.env.REACT_APP_API_AUTH_SIGN_UP;
-    // let user = {
-    //   name: this.state.name,
-    //   email: this.state.email.trim(),
-    //   password: this.state.password,
-    //   password_confirmation: this.state.password_confirmation,
-    //   role: this.state.role,
-    // };
-    // axios
-    //   .post(api_endpoint, user)
-    //   .then(res => this.handleRegisterResponse(res))
-    //   .catch(error => this.handleErrorResponse(error));
   }
 
   render() {
@@ -190,7 +173,7 @@ class BeekeeperPage extends Component {
             Apiary
           </Typography>
           <Container>
-            {/* <TextField
+            <TextField
               required
               fullWidth
               autoFocus
@@ -199,8 +182,15 @@ class BeekeeperPage extends Component {
               key="name"
               autoComplete="name"
               label="Name"
-              // onChange={this.handleApiaryInputChange("name")}
-            /> */}
+              onChange={event =>
+                this.setState({
+                  apiary: {
+                    ...this.state.apiary,
+                    name: event.target.value
+                  }
+                })
+              }
+            />
             <TextField
               fullWidth
               required
@@ -254,7 +244,6 @@ class BeekeeperPage extends Component {
               This Apiary is already registered
             </Typography>
           )}
-          {/* <RegisterForm handleApiaryInputChange={this.handleInputChange} onSubmitRegister={this.handleRegisterSubmit}/> */}
         </Container>
         <Footer />
       </React.Fragment>
@@ -262,4 +251,4 @@ class BeekeeperPage extends Component {
   }
 }
 
-export default withStyles(styles)(BeekeeperPage);
+export default withStyles(styles)(ApiaryPage);
