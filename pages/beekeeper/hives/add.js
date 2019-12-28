@@ -41,7 +41,7 @@ const styles = theme => ({
   }
 });
 
-class BeekeeperPage extends Component {
+class AddHivePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -115,7 +115,7 @@ class BeekeeperPage extends Component {
           }
           return a;
         });
-        self.setState({ apiaries: apiaries, error: '' });
+        self.setState({ apiaries, error: '' });
       }
     });
   }
@@ -186,6 +186,7 @@ class BeekeeperPage extends Component {
             <FormControl
               required
               fullWidth
+              margin="normal"
             >
               <InputLabel id="apiary_id-label">Apiary ID</InputLabel>
               <Select
@@ -201,6 +202,7 @@ class BeekeeperPage extends Component {
             <FormControl
                 required
                 fullWidth
+                margin="normal"
             >
               <InputLabel id="sensor_id-label">Sensor ID</InputLabel>
               <Select
@@ -230,4 +232,4 @@ class BeekeeperPage extends Component {
   }
 }
 
-export default withStyles(styles)(BeekeeperPage);
+export default withStyles(styles)(AddHivePage);
