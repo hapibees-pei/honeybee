@@ -22,6 +22,8 @@ import my_data from '../Plot/test.json';
 import my_data2 from '../Plot/test2.json';
 import { Container } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
+import axios from 'axios';
+
 
 const TYPE = [my_data, my_data2, my_data, my_data2, my_data, my_data2];
 
@@ -36,7 +38,7 @@ const styles = theme => ({
 
 
 const processLabel = (data) => {
-  const newdata = data.map (row => (
+  const newdata = data.data.map (row => (
     moment(row.date).format("H:mm").toString()
 
     //"A"
@@ -46,9 +48,9 @@ const processLabel = (data) => {
 };
 
 const processData = (data) => {
-    return data.map((row, i) => ({
+    return data.data.map((row, i) => ({
       x: i,
-      y: row.temperature  //dps vai ter q ser value
+      y: row.value  //dps vai ter q ser value
     }));
   };
 
@@ -59,21 +61,37 @@ class LineChart extends Component {
         loading : false,
         data: {
           values: [], 
-          labels: []
+          labels: []      
         },
       };
   }
 
   handleChangeData = type => {    
-    const PLOT_DATA = TYPE[type || 0].data;
-    const data = { values: processData(PLOT_DATA), labels: processLabel(PLOT_DATA) };
+    // const PLOT_DATA = TYPE[type || 0].data;
 
-    this.setState({ data });
+    const url = 'http://localhost:3001/api/v1/apiaries/';
+    var apiary_id = 'ebf03d08-ef4e-4141-ba9b-32b6514f2c79/';
+    var hive_id = '96f8b221-6664-4c0b-a8e6-2042d862f975?query=';
+    var attribute = type;
+    const unity='';
+
+
+    axios.get(url + apiary_id + 'statistics/' + hive_id + attribute + '&time_unity=minute')
+      .then(res => {
+      const data = { values: processData(res.data), labels: processLabel(res.data) };
+      this.setState({ data });
+
+      })
   }
 
+
+
+  //localhost:3000/statistics/apiary_id/hive_id
+  //`http://localhost:3001/api/v1/apiaries/ebf03d08-ef4e-4141-ba9b-32b6514f2c79/statistics/96f8b221-6664-4c0b-a8e6-2042d862f975?query=temperature&time_unity=minute`
+
+
   componentDidMount(){
-    
-    this.handleChangeData(null);
+    this.handleChangeData('temperature');
   }
   
 
@@ -116,22 +134,22 @@ class LineChart extends Component {
 
           
           { <div  className={classes.ButtonContent} >
-              <Button  variant="outlined" color="secondary" size="small" onClick={() => this.handleChangeData(0)}>
+              <Button  variant="outlined" color="secondary" size="small" onClick={() => this.handleChangeData('temperature')}>
               Temperature
               </Button>
-              <Button variant="outlined" color="secondary" size="small" onClick={() => this.handleChangeData(1)}>
+              <Button variant="outlined" color="secondary" size="small" onClick={() => this.handleChangeData('pressure')}>
               Pressure
               </Button>
-              <Button variant="outlined" color="secondary" size="small" onClick={() => this.handleChangeData(2)}>
+              <Button variant="outlined" color="secondary" size="small" onClick={() => this.handleChangeData('light')}>
               Light
               </Button>
-              <Button variant="outlined" color="secondary" size="small" onClick={() => this.handleChangeData(3)}>
+              <Button variant="outlined" color="secondary" size="small" onClick={() => this.handleChangeData('noise')}>
               Noise
               </Button>
-              <Button variant="outlined" color="secondary" size="small" onClick={() => this.handleChangeData(4)}>
+              <Button variant="outlined" color="secondary" size="small" onClick={() => this.handleChangeData('accelerometer')}>
               Accelerometer
               </Button>
-              <Button variant="outlined" color="secondary" size="small"onClick={() => this.handleChangeData(5)}>
+              <Button variant="outlined" color="secondary" size="small"onClick={() => this.handleChangeData('humidity')}>
               Humidity
               </Button>
           </div> }

@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import LoginForm from "../components/LoginForm";
 import { CssBaseline, Typography, Container } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import Grid from '@material-ui/core/Grid';
+import Grid from "@material-ui/core/Grid";
 // import { withStyles } from '@material-ui/styles';
-import LineChart from "../components/LineChart/index.js"
-import OverallChart from "../components/OverallChart/index.js"
+import LineChart from "../components/LineChart/index.js";
+import OverallChart from "../components/OverallChart/index.js";
 import axios from "axios";
 import { Footer, Header } from "../components";
-import { sizing } from '@material-ui/system';
+import { sizing } from "@material-ui/system";
 
 const styles = theme => ({
   "@global": {
@@ -24,89 +24,105 @@ const styles = theme => ({
     }
   },
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
-  StatisticsContent: {
+  statisticsContent: {
     padding: theme.spacing(8, 0, 6),
     marginTop: 0,
     marginBottom: 50
   },
   plot: {
-    padding: theme.spacing(4, 0, 6),
-    /* display: 'flex', 
-   alignItems: 'center',
-   justifyContent: 'center' */
-  } //// isto nao esta a centrar
+    padding: theme.spacing(4, 0, 6)
+  } 
 });
 
+const APIARY_API = "http://localhost:3001/api/v1/apiaries/";
+const HIVE_PARAMS = [
+  "temperature",
+  "pressure",
+  "light",
+  "noise",
+  "accelerometer",
+  "humidity"
+];
 
-
-
-class LoginPage extends Component {
+class StatisticsPage extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      email: '',
-      password: '',
-      error: ''
-    }
-    this.handleLoginSubmit = this.handleLoginSubmit.bind(this)
+      overallValues: [],
+      error: ""
+    };
   }
 
-  handleInputChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
+  fetchOverallData = async (apiary_id, hive_id) => {
+    var readings = [];
+
+    for (var i = 0; i < HIVE_PARAMS.length; i++) {
+      await axios
+        .get(
+          APIARY_API +
+            apiary_id +
+            "/" +
+            "statistics/" +
+            hive_id +
+            "?query=" +
+            HIVE_PARAMS[i] +
+            "&time_unity=minute"
+        )
+        .then(res => {
+          readings.push(this.lastReading(res.data));
+        })
+        .catch(error => {
+          readings = new Array(6).fill("error");
+          this.setState({ error: "Error Fetch Overall Data" });
+        });
+    }
+
+    this.setState({ overallValues: readings });
   };
 
-  handleLoginResponse(res) {
-    // if (res.data.hasOwnProperty('jwt')) {
-    //   this.setState({ error: '' })
-    //   localStorage.jwt = res.data.jwt
-    //   window.location.pathname = '/'
-    // } else {
-    //   this.setState({ error: 'Login error' })
-    // }
-  }
+  lastReading = readings => {
+    return readings.data[readings.data.length - 1].value.toFixed(2);
+  };
 
-  handleErrorResponse(res) {
-    // if (res.response) {
-    //   this.setState({ error: 'Invalid email or password' })
-    // } else {
-    //   this.setState({ error: 'Login error' })
-    // }
-  }
+  componentDidMount() {
+    var params = {};
+    location.search
+      .slice(1)
+      .split("&")
+      .map(a => {
+        params[a.split("=")[0]] = a.split("=")[1];
+      });
 
-  handleLoginSubmit() {
-    // const api_endpoint =
-    //     process.env.REACT_APP_ENDPOINT + process.env.REACT_APP_API_AUTH_SIGN_IN;
-    // axios
-    //   .post(api_endpoint, {
-    //     email: this.state.email,
-    //     password: this.state.password
-    //   },)
-    //   .then(res => this.handleLoginResponse(res))
-    //   .catch(res => this.handleErrorResponse(res))
+    this.fetchOverallData(params.apiary, params.hive);
   }
 
   render() {
     const { classes } = this.props;
+    //debugger;
+    const { overallValues } = this.state;
+
     return (
       <React.Fragment>
         <CssBaseline />
         <Header />
-        <Container maxWidth="90%" className={classes.StatisticsContent}>
+        <Container maxWidth="90%" className={classes.statisticsContent}>
           <Typography component="h1" variant="h2" align="center">
             Hive X
           </Typography>
-          {/* <Container maxWidth="xl" className={classes.plot}>
-           <OverallChart /> 
-          </Container> */}
           <div className={classes.root}>
-            <Grid container justify="center"
-              align="center" xs direction="row" spacing={3} className={classes.plot}>
+            <Grid
+              container
+              justify="center"
+              align="center"
+              xs
+              direction="row"
+              spacing={3}
+              className={classes.plot}
+            >
               <Grid item xs sm>
-                <OverallChart />
+                {<OverallChart values={overallValues} />}
               </Grid>
               <Grid item xs sm>
                 <LineChart />
@@ -120,4 +136,4 @@ class LoginPage extends Component {
   }
 }
 
-export default withStyles(styles)(LoginPage);
+export default withStyles(styles)(StatisticsPage);
