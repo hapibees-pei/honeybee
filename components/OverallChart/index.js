@@ -1,21 +1,7 @@
 import React, { Component } from "react";
 import "react-vis/dist/style.css";
-import {
-  XYPlot,
-  XAxis,
-  YAxis,
-  HorizontalGridLines,
-  VerticalGridLines,
-  LineSeries,
-  FlexibleXYPlot,
-  FlexibleWidthXYPlot,
-  FlexibleHeightXYPlot,
-  HexbinSeries,
-  Borders,
-  LabelSeries
-} from "react-vis";
+import { XYPlot, HexbinSeries, Borders, LabelSeries } from "react-vis";
 import { Container } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
 
 class OverallChart extends Component {
   render() {
@@ -23,15 +9,13 @@ class OverallChart extends Component {
       this.props.values.length != 0
         ? this.props.values
         : new Array(6).fill("loading");
-        
+
     const newData = [
-      //apenas mudar valor de reading com situação real!
       { x: 3.2, y: 2.4, reading: values[0], type: "Temperature", unity: "ºC" },
       { x: 6.45, y: 4.55, reading: values[1], type: "Pressure", unity: "bar" },
       { x: 3.2, y: 6.8, reading: values[2], type: "Light", unity: "lx" }
     ];
     const newData2 = [
-      //apenas mudar valor de reading com situação real!
       { x: 2.1, y: 4.55, reading: values[3], type: "Noise", unity: "dB" },
       {
         x: 5.35,
@@ -66,12 +50,7 @@ class OverallChart extends Component {
 
     return (
       <Container>
-        <XYPlot
-          xDomain={[0, 9]}
-          yDomain={[0, 9]}
-          width={576}
-          height={504}
-        >
+        <XYPlot xDomain={[0, 9]} yDomain={[0, 9]} width={576} height={504}>
           <HexbinSeries
             animation
             className="hexbin-example"

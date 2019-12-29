@@ -3,12 +3,11 @@ import LoginForm from "../components/LoginForm";
 import { CssBaseline, Typography, Container } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-// import { withStyles } from '@material-ui/styles';
 import LineChart from "../components/LineChart/index.js";
 import OverallChart from "../components/OverallChart/index.js";
 import axios from "axios";
 import { Footer, Header } from "../components";
-import { sizing } from "@material-ui/system";
+import moment from "moment";
 
 const styles = theme => ({
   "@global": {
@@ -33,7 +32,7 @@ const styles = theme => ({
   },
   plot: {
     padding: theme.spacing(4, 0, 6)
-  } 
+  }
 });
 
 const APIARY_API = "http://localhost:3001/api/v1/apiaries/";
@@ -50,22 +49,72 @@ class StatisticsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      apiary_id: "",
+      hive_id: "",
       overallValues: [],
+      linechartValues: [],
+      linechartLabels: [],
       error: ""
     };
   }
 
-  fetchOverallData = async (apiary_id, hive_id) => {
+  processLabel = stats => {
+    const newdata = stats.data.map(row =>
+      moment(row.date)
+        .format("H:mm")
+        .toString()
+    );
+
+    return newdata;
+  };
+
+  processData = stats => {
+    return stats.data.map((row, i) => ({
+      x: i,
+      y: row.value
+    }));
+  };
+
+  lastReading = readings => {
+    return readings.data[readings.data.length - 1].value.toFixed(2);
+  };
+
+  fetchLineChartData = type => {
+    axios
+      .get(
+        APIARY_API +
+          this.state.apiary_id +
+          "/statistics/" +
+          this.state.hive_id +
+          "?query=" +
+          type +
+          "&time_unity=minute"
+      )
+      .then(res => {
+        this.setState({
+          linechartValues: this.processData(res.data),
+          linechartLabels: this.processLabel(res.data)
+        });
+      })
+      .catch(error => {
+        this.setState({
+          error: "Error Fetch LineChart Data",
+          linechartLabels: [],
+          linechartValues: []
+        });
+      });
+  };
+
+  fetchOverallData = async () => {
     var readings = [];
 
     for (var i = 0; i < HIVE_PARAMS.length; i++) {
       await axios
         .get(
           APIARY_API +
-            apiary_id +
-            "/" +
-            "statistics/" +
-            hive_id +
+            this.state.apiary_id +
+            "/statistics/" +
+            this.state.hive_id +
             "?query=" +
             HIVE_PARAMS[i] +
             "&time_unity=minute"
@@ -82,10 +131,6 @@ class StatisticsPage extends Component {
     this.setState({ overallValues: readings });
   };
 
-  lastReading = readings => {
-    return readings.data[readings.data.length - 1].value.toFixed(2);
-  };
-
   componentDidMount() {
     var params = {};
     location.search
@@ -95,13 +140,21 @@ class StatisticsPage extends Component {
         params[a.split("=")[0]] = a.split("=")[1];
       });
 
-    this.fetchOverallData(params.apiary, params.hive);
+    this.setState(
+      {
+        apiary_id: params.apiary,
+        hive_id: params.hive
+      },
+      () => {
+        this.fetchOverallData();
+        this.fetchLineChartData("temperature");
+      }
+    );
   }
 
   render() {
     const { classes } = this.props;
-    //debugger;
-    const { overallValues } = this.state;
+    const { overallValues, linechartValues, linechartLabels } = this.state;
 
     return (
       <React.Fragment>
@@ -116,7 +169,7 @@ class StatisticsPage extends Component {
               container
               justify="center"
               align="center"
-              xs
+              item xs
               direction="row"
               spacing={3}
               className={classes.plot}
@@ -125,7 +178,11 @@ class StatisticsPage extends Component {
                 {<OverallChart values={overallValues} />}
               </Grid>
               <Grid item xs sm>
-                <LineChart />
+                <LineChart
+                  values={linechartValues}
+                  labels={linechartLabels}
+                  handleChangeData={this.fetchLineChartData}
+                />
               </Grid>
             </Grid>
           </div>
