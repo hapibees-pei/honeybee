@@ -1,5 +1,6 @@
+// <reference path="../Plot/react-vis.d.ts"/>
 import React, { Component } from "react";
-import "react-vis/dist/style.css";
+//import "react-vis/dist/style.css";
 import { XYPlot, HexbinSeries, Borders, LabelSeries } from "react-vis";
 import { Container } from "@material-ui/core";
 

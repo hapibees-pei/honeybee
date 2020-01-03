@@ -1,8 +1,7 @@
-/// <reference path="../Plot/react-vis.d.ts"/>
-
+// <reference path="../Plot/react-vis.d.ts"/>
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
-import "react-vis/dist/style.css";
+//import "react-vis/dist/style.css";
 import {
   XYPlot,
   XAxis,
@@ -10,9 +9,7 @@ import {
   HorizontalGridLines,
   VerticalGridLines,
   LineSeries,
-  FlexibleXYPlot,
-  FlexibleWidthXYPlot,
-  FlexibleHeightXYPlot
+  FlexibleXYPlot
 } from "react-vis";
 import { Container } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
