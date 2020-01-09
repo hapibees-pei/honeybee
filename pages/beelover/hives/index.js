@@ -50,8 +50,8 @@ const styles = theme => ({
   }
 });
 
-// todo: put in .env => process.env.APIARIES_API
-const APIARIES_API = "http://localhost:3001/api/v1/beelover/fundings/";
+// todo: put in .env => process.env.FUNDINGS_API
+const FUNDINGS_API = "http://localhost:3001/api/v1/beelover/fundings/";
 
 class BeeloverHivesPage extends Component {
   constructor(props) {
@@ -62,12 +62,6 @@ class BeeloverHivesPage extends Component {
     };
   }
 
-  handleHiveInputChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
-  };
-
   componentDidMount() {
     let config = {
       headers: {
@@ -77,7 +71,7 @@ class BeeloverHivesPage extends Component {
     };
 
     axios
-      .get(APIARIES_API, config)
+      .get(FUNDINGS_API, config)
       .then(res => this.handleApiaryResponse(res))
       .catch(error => this.handleApiaryErrorResponse(error));
   }
@@ -95,7 +89,7 @@ class BeeloverHivesPage extends Component {
   };
 
   getHives = async (apiary_id, apiary_name) => {
-    const HIVES_API = APIARIES_API + apiary_id + "/hives";
+    const HIVES_API = FUNDINGS_API + apiary_id + "/hives";
 
     let config = {
       headers: {
