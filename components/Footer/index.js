@@ -1,76 +1,113 @@
 import { Container, Grid, Box, Typography, Link } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import Copyright from "./Copyright";
+import logo from "../../assets/images/logo/white_on_black.png";
+import facebook from "../../assets/images/Facebook.svg";
+import twitter from "../../assets/images/Twitter.svg";
+import instagram from "../../assets/images/Instagram.svg";
 
 const useStyles = makeStyles(theme => ({
   footer: {
     borderTop: `1px solid ${theme.palette.divider}`,
-    marginTop: theme.spacing(8),
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),
     [theme.breakpoints.up("sm")]: {
       paddingTop: theme.spacing(6),
       paddingBottom: theme.spacing(6)
-    }
+    },
+    backgroundColor: '#101820'
+  },
+  root: {
+    backgroundColor: '#101820'
+  },
+  title: {
+    color: '#CCCCCC',
+    fontWeight: 600,
+    fontSize: 22
+  },
+  topics: {
+    color:  '#919191',
+    fontWeight: 400,
+    fontSize: 15
+  },
+  desc: {
+    lineHeight: 1.67
   }
 }));
 
-const footers = [
-  {
-    title: "Company",
-    description: ["Team", "History", "Contact us", "Locations"]
-  },
-  {
-    title: "Features",
-    description: [
-      "Cool stuff",
-      "Random feature",
-      "Team feature",
-      "Developer stuff",
-      "Another one"
-    ]
-  },
-  {
-    title: "Resources",
-    description: [
-      "Resource",
-      "Resource name",
-      "Another resource",
-      "Final resource"
-    ]
-  },
-  {
-    title: "Legal",
-    description: ["Privacy policy", "Terms of use"]
-  }
+const desc1 = [
+  "The situation",
+  "The Idea",
+  "The Buzz",
+  "Be part of the  Solution"
+];
+
+const desc2 = [
+  "About",
+  "Culture",
+  "The Colony",
+  "Join the Hive"
 ];
 
 function Footer() {
   const classes = useStyles();
   return (
-    <Container maxWidth="md" component="footer" className={classes.footer}>
-      <Grid container spacing={4} justify="space-evenly">
-        {footers.map(footer => (
-          <Grid item xs={6} sm={3} key={footer.title}>
-            <Typography variant="h6" color="textPrimary" gutterBottom>
-              {footer.title}
-            </Typography>
-            <ul>
-              {footer.description.map(item => (
-                <li key={item}>
-                  <Link href="#" variant="subtitle1" color="textSecondary">
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </Grid>
-        ))}
-      </Grid>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
-    </Container>
+      <Container maxWidth="false" className={classes.root}>
+        <Container maxWidth="false" component="footer" className={classes.footer}>
+          <Container style={{ display: 'flex' }}>
+            <Container>
+              <img src={logo} height="120" />
+            </Container>
+            <Container className={classes.desc}>
+              <Typography gutterBottom className={classes.title}>
+                The Honey
+              </Typography>
+              <ul>
+                {desc1.map(item => (
+                    <li key={item}>
+                      <Link href="#" className={classes.topics}>
+                        {item}
+                      </Link>
+                    </li>
+                ))}
+              </ul>
+            </Container>
+            <Container className={classes.desc}>
+              <Typography gutterBottom className={classes.title}>
+                The Hive
+              </Typography>
+              <ul>
+                {desc2.map(item => (
+                    <li key={item}>
+                      <Link href="#" className={classes.topics}>
+                        {item}
+                      </Link>
+                    </li>
+                ))}
+              </ul>
+            </Container>
+            <Container>
+              <Typography className={classes.title}>
+                What's Buzzing?
+              </Typography>
+              <Grid container>
+                <Link href="#">
+                  <img src={instagram} height="48"/>
+                </Link>
+                <Link href="#">
+                  <img src={facebook} height="48" style={{ marginLeft: 12 }} />
+                </Link>
+                <Link href="#">
+                  <img src={twitter} height="48" style={{ marginLeft: 12 }} />
+                </Link>
+              </Grid>
+            </Container>
+          </Container>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
+        </Container>
+      </Container>
   );
 }
 

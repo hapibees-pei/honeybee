@@ -2,7 +2,7 @@ import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Footer, Header, Hero, ReasonsSupport, FeaturedApiaries } from "../components";
+import { SubscribeFooter, Footer, Header, Hero, ReasonsSupport, FeaturedApiaries } from "../components";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -32,6 +32,7 @@ export default function Index() {
       <ReasonsSupport />
       <FeaturedApiaries/>
       {/* Footer */}
+      <SubscribeFooter />
       <Footer />
       {/* End footer */}
     </React.Fragment>

@@ -8,8 +8,21 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
+import honeyComb from '../../assets/images/BGHoneycomb.svg';
+import lover from '../../assets/images/BeeLover.svg';
+import keeper from '../../assets/images/BeeKeeper.svg';
+import Logo from "../../assets/images/logo/black_on_yellow.png";
+import {Link} from "@material-ui/core";
+
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    backgroundImage: `url(${honeyComb})`,
+    height: 675,
+    paddingTop: 64
+  },
+  titleContainer: {
+  },
   cardPricing: {
     display: "flex",
     justifyContent: "center",
@@ -18,113 +31,39 @@ const useStyles = makeStyles(theme => ({
   },
   featuredApiaries: {
     padding: 20,
-    fontSize: 26,
-    textAlign: "center",
-    color: "white",
-    backgroundColor: `rgb(0, 90, 254)`,
-    marginTop: 90,
+    fontSize: 41,
+    textAlign: 'center',
+    fontWeight: 'bold',
     marginBottom: 40
+  },
+  lover: {
+    textAlign: 'center',
+    marginTop: 70
+  },
+  keeper: {
+    backgroundImage: `url(${keeper})`,
+    height: 200
+  },
+  loverKeeper: {
+    flexGrow: 1
   }
 }));
 
 function FeaturedApiaries() {
   const classes = useStyles();
   return (
-    <Container maxWidth="md" component="main">
-      <Container maxWidth="sm" component="main">
-        <div className={classes.featuredApiaries}>Featured Apiaries</div>
+    <Container maxWidth="false" className={classes.root}>
+      <Container className={classes.titleContainer}>
+        <div className={classes.featuredApiaries}>Bee Part of the Solution</div>
       </Container>
-      <Grid container spacing={5} alignItems="center">
-        <Grid item xs={12} sm={6} md={6}>
-          <Card>
-            <CardContent>
-              <div className={classes.cardPricing}>
-                <Typography component="h2" variant="h3" color="textPrimary">
-                  The Holy Grail
-                </Typography>
-              </div>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <Card>
-            <CardContent>
-              <div className={classes.cardPricing}>
-                <Typography component="h2" variant="h4" color="textPrimary">
-                  Machado's Apiary
-                </Typography>
-              </div>
-              <CardActions>
-                <Button fullWidth variant="contained" color="warning">
-                  Back this apiary
-                </Button>
-              </CardActions>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-      <div style={{ marginTop: 60 }}>
-        <Grid container spacing={5} alignItems="center">
-          <Grid item xs={12} sm={6} md={6}>
-            <Card>
-              <CardContent>
-                <div className={classes.cardPricing}>
-                  <Typography component="h2" variant="h4" color="textPrimary">
-                    Gonçalves' Apiary
-                  </Typography>
-                </div>
-                <CardActions>
-                  <Button fullWidth variant="contained" color="warning">
-                    Back this apiary
-                  </Button>
-                </CardActions>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Card>
-              <CardContent>
-                <div className={classes.cardPricing}>
-                  <Typography component="h2" variant="h3" color="textPrimary">
-                    The Holy Grail 2
-                  </Typography>
-                </div>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </div>
-      <div style={{ marginTop: 60 }}>
-        <Grid container spacing={5} alignItems="center">
-          <Grid item xs={12} sm={6} md={6}>
-            <Card>
-              <CardContent>
-                <div className={classes.cardPricing}>
-                  <Typography component="h2" variant="h3" color="textPrimary">
-                    The Holy Grail 3
-                  </Typography>
-                </div>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
-            <Card>
-              <CardContent>
-                <div className={classes.cardPricing}>
-                  <Typography component="h2" variant="h4" color="textPrimary">
-                    Resende's Apiary
-                  </Typography>
-                </div>
-                <CardActions>
-                  <Button fullWidth variant="contained" color="warning">
-                    Back this apiary
-                  </Button>
-                </CardActions>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </div>
+      <Container maxWidth="false" className={classes.lover}>
+        <Link className={classes.loverKeeper} href="/">
+          <img src={lover} height="350px" />
+        </Link>
+        <Link className={classes.loverKeeper} href="/">
+          <img src={keeper} height="350px" />
+        </Link>
+      </Container>
     </Container>
   );
 }
