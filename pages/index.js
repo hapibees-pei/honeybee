@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
+import Router  from "next/router";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { SubscribeFooter, Footer, Header, Hero, ReasonsSupport, FeaturedApiaries } from "../components";
+import { useAuth } from '../providers/auth';
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -21,6 +23,14 @@ const useStyles = makeStyles(theme => ({
 
 export default function Index() {
   useStyles();
+  const { user } = useAuth();
+  
+  useEffect(() => {
+    if (user) {
+      Router.push("/" + user.role);
+    }
+  }, []);
+  
   return (
     <React.Fragment>
       <CssBaseline />

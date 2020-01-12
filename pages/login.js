@@ -1,11 +1,11 @@
 import React, { Component } from "react";
+import Router  from "next/router";
 import LoginForm from "../components/LoginForm";
 import { CssBaseline, Typography, Container } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-// import { withStyles } from '@material-ui/styles';
-import axios from "axios";
 
 import { Footer, Header } from "../components";
+import { AuthContext } from '../providers/auth';
 
 const styles = theme => ({
   "@global": {
@@ -29,6 +29,8 @@ const styles = theme => ({
 
 
 class LoginPage extends Component {
+  static contextType = AuthContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -37,55 +39,27 @@ class LoginPage extends Component {
       error: ''
     };
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this)
+
+  }
+
+  componentDidMount() {
+    const { user } = this.context;
+    if (user) {
+      Router.push("/" + user.role);
+    }
   }
 
   handleInputChange = name => event => {
     this.setState({
-      [name]: event.target.value 
+      [name]: event.target.value
     });
   };
 
-  handleLoginResponse(res) {
-    if (res.data.hasOwnProperty('token')) {
-      this.setState({ error: '' });
-      localStorage.token = res.data.token;
-      localStorage.user = this.state.email;
-      //TODO: redirect to role
-      // window.location.pathname = '/' + res.data.role;
-      window.location.pathname = '/';
-    } else {
-      this.setState({ error: 'Login error' });
-    }
-  }
+  async handleLoginSubmit() {
+    const { handleLogin } = this.context;
+    const { email, password } = this.state;
 
-  handleErrorResponse(error) {
-    let errorMsg = '';
-    if (error.response) {
-      // status code outside 2XX
-      errorMsg = 'Login error: email or password is wrong.';
-    } else if (error.request) {
-      // status code 2XX
-      errorMsg = 'Network Error.';
-    }
-    this.setState({ error: errorMsg });
-  }
-
-  handleLoginSubmit() {
-    // todo: put in .env => process.env.REACT_APP_API
-    const REACT_APP_API = 'http://localhost:3001/api';
-    const endpoint = REACT_APP_API  + '/auth/login';
-
-    let user = {
-      'user': {
-        'email': this.state.email.trim(),
-        'password': this.state.password,
-      }
-    };
-
-    axios
-      .post(endpoint, user)
-      .then(res => this.handleLoginResponse(res))
-      .catch(error => this.handleErrorResponse(error));
+    handleLogin(email, password);
   }
 
   render() {

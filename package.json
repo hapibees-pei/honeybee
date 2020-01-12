@@ -20,10 +20,12 @@
     "next": "^9.1.4",
     "next-images": "^1.2.0",
     "node-sass": "^4.13.0",
+    "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-leaflet": "^2.6.0",
-    "react-vis": "^1.11.7"
+    "react-vis": "^1.11.7",
+    "recompose": "^0.30.0"
   },
   "devDependencies": {
     "style-loader": "^1.0.1",

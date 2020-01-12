@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import RegisterForm from "../components/RegisterForm";
+import Router  from "next/router";
 import { CssBaseline, Typography, Container, Button, Grid, CardContent, Card, CardActions } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-// import { withStyles } from '@material-ui/styles';
-import axios from "axios";
 
-import { Footer, Header } from "../components";
+import { Footer, Header } from "../../components";
+import { AuthContext } from '../../providers/auth';
+
 
 const styles = theme => ({
   "@global": {
@@ -35,6 +35,8 @@ const styles = theme => ({
 });
 
 class BeeloverPage extends Component {
+  static contextType = AuthContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -48,6 +50,12 @@ class BeeloverPage extends Component {
     this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this)
   }
 
+  componentDidMount() {
+    const { user } = this.context;
+    if (!user || user.role != "beelover") {
+      Router.push("/login");
+    }
+  }
 
   handleInputChange = name => event => {
     this.setState({
@@ -90,7 +98,6 @@ class BeeloverPage extends Component {
       password_confirmation: this.state.password_confirmation,
       role: this.state.role,
     };
-    console.log(user);
     // axios
     //   .post(api_endpoint, user)
     //   .then(res => this.handleRegisterResponse(res))

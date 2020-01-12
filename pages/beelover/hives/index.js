@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Router  from "next/router";
 import {
   CssBaseline,
   Typography,
@@ -15,6 +16,7 @@ import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
 
 import { Footer, Header } from "../../../components";
+import { AuthContext } from '../../../providers/auth';
 
 const styles = theme => ({
   "@global": {
@@ -54,6 +56,8 @@ const styles = theme => ({
 const FUNDINGS_API = "http://localhost:3001/api/v1/beelover/fundings/";
 
 class BeeloverHivesPage extends Component {
+  static contextType = AuthContext;
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -63,6 +67,10 @@ class BeeloverHivesPage extends Component {
   }
 
   componentDidMount() {
+    const { user } = this.context;
+    if (!user || user.role != "beelover") {
+      Router.push("/login");
+    }
     let config = {
       headers: {
         Authorization: "Bearer " + localStorage.token,
