@@ -148,7 +148,7 @@ class AddHivePage extends Component {
   }
 
   render() {
-    const { classes, state } = this.props;
+    const { classes } = this.props;
     const { apiaries, sensors } = this.state;
 
     return (

@@ -86,12 +86,12 @@ class StatisticsPage extends Component {
     axios
       .get(
         APIARY_API +
-          this.state.apiary_id +
-          "/statistics/" +
-          this.state.hive_id +
-          "?query=" +
-          type +
-          "&time_unity=minute"
+        this.state.apiary_id +
+        "/statistics/" +
+        this.state.hive_id +
+        "?query=" +
+        type +
+        "&time_unity=minute"
       )
       .then(res => {
         this.setState({
@@ -115,12 +115,12 @@ class StatisticsPage extends Component {
       await axios
         .get(
           APIARY_API +
-            this.state.apiary_id +
-            "/statistics/" +
-            this.state.hive_id +
-            "?query=" +
-            HIVE_PARAMS[i] +
-            "&time_unity=minute"
+          this.state.apiary_id +
+          "/statistics/" +
+          this.state.hive_id +
+          "?query=" +
+          HIVE_PARAMS[i] +
+          "&time_unity=minute"
         )
         .then(res => {
           readings.push(this.lastReading(res.data));
