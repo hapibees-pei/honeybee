@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
+import { AuthContext } from '../../providers/auth';
 import {
   AppBar,
   Button,
   Toolbar,
-  Typography,
-  ButtonGroup,
   Link,
   Container
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { withStyles } from "@material-ui/core/styles";
 import LogoBlack from "../../assets/images/logo/black_on_transparent.png";
 import LogoWhite from "../../assets/images/logo/white_on_transparent.png";
@@ -47,10 +45,12 @@ const styles = theme => ({
     color: theme.palette.white.main,
     borderColor: theme.palette.white.main,
     alignSelf: "center"
-  }
+  },
+  button: { margin: theme.spacing(2, 1), alignSelf: "center" }
 });
 
 class Header extends React.Component {
+  static contextType = AuthContext;
 
   constructor(props) {
     super(props);
@@ -72,15 +72,10 @@ class Header extends React.Component {
   }
 
   render() {
-
-    const handleLogout = () => {
-      localStorage.clear();
-      const [login, setLogin] = useState(this.state.isLogin);
-      setLogin(false);
-    };
-
-    const { login } = this.state;
     const { classes } = this.props;
+
+    const { user, handleLogout } = this.context;
+    const login = typeof window !== "undefined" && user != null;
 
     return (
       <AppBar
@@ -98,39 +93,47 @@ class Header extends React.Component {
               <div>
                 <Button
                   variant="contained"
-                  color="secondary"
-                  className={this.state.isTop ? classes.linkBlack : classes.linkWhite}
-
-                  href="/beekeeper/hives"
+                  color={this.state.isTop ? "secondary" : "white"}
+                  className={classes.button}
+                  href={"/" + user.role + "/hives"}
                 >
                   Hives
                 </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  className={this.state.isTop ? classes.linkBlack : classes.linkWhite}
-
-                  href="/beekeeper/apiary"
-                >
-                  Add Apiary
-                    </Button>
-              </div>
-              <Link
-                variant="button"
-                color="secondary"
-                href="/register"
-                className={this.state.isTop ? classes.linkBlack : classes.linkWhite}
-              >
-                {"Hello " + localStorage.user}
-              </Link>
-              <Button
-                onClick={handleLogout}
-                color="secondary"
-                variant="outlined"
-                className={this.state.isTop ? classes.linkBlack : classes.linkWhite}
-              >
-                Logout
+                {user.role === "beekeeper" &&
+                  <Button
+                    variant="contained"
+                    color={this.state.isTop ? "secondary" : "white"}
+                    className={classes.button}
+                    href="/beekeeper/apiary"
+                  >
+                    Add Apiary
                   </Button>
+                }
+                {user.role === "beelover" &&
+                  <Button
+                    variant="contained"
+                    color={this.state.isTop ? "secondary" : "white"}
+                    className={classes.button}
+                    href="/beelover/fundings"
+                  >
+                    Fundings
+                  </Button>
+                }
+                <Link
+                  variant="button"
+                  href={"/" + user.role}
+                  className={this.state.isTop ? classes.linkBlack : classes.linkWhite}
+                >
+                  {"Hello " + user.name}
+                </Link>
+                <Button
+                  onClick={handleLogout}
+                  variant="outlined"
+                  className={this.state.isTop ? classes.linkBlack : classes.linkWhite}
+                >
+                  Logout
+                  </Button>
+              </div>
             </Toolbar>
           ) : (
               <Toolbar className={classes.toolbar}>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import LoginForm from "../components/LoginForm";
+import Router  from "next/router";
+import { AuthContext } from '../providers/auth';
 import { CssBaseline, Typography, Container } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -46,6 +47,8 @@ const HIVE_PARAMS = [
 ];
 
 class StatisticsPage extends Component {
+  static contextType = AuthContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -83,12 +86,12 @@ class StatisticsPage extends Component {
     axios
       .get(
         APIARY_API +
-          this.state.apiary_id +
-          "/statistics/" +
-          this.state.hive_id +
-          "?query=" +
-          type +
-          "&time_unity=minute"
+        this.state.apiary_id +
+        "/statistics/" +
+        this.state.hive_id +
+        "?query=" +
+        type +
+        "&time_unity=minute"
       )
       .then(res => {
         this.setState({
@@ -112,12 +115,12 @@ class StatisticsPage extends Component {
       await axios
         .get(
           APIARY_API +
-            this.state.apiary_id +
-            "/statistics/" +
-            this.state.hive_id +
-            "?query=" +
-            HIVE_PARAMS[i] +
-            "&time_unity=minute"
+          this.state.apiary_id +
+          "/statistics/" +
+          this.state.hive_id +
+          "?query=" +
+          HIVE_PARAMS[i] +
+          "&time_unity=minute"
         )
         .then(res => {
           readings.push(this.lastReading(res.data));
@@ -132,6 +135,11 @@ class StatisticsPage extends Component {
   };
 
   componentDidMount() {
+    const { user } = this.context;
+    if (!user) {
+      Router.push("/login");
+    }
+
     var params = {};
     location.search
       .slice(1)

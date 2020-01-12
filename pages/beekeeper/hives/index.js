@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import RegisterForm from "../../../components/RegisterForm";
+import Router  from "next/router";
+import axios from "axios";
 import {
   CssBaseline,
   Typography,
@@ -10,13 +11,12 @@ import {
   Card,
   CardActions,
   Fab,
-  TextField
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { withStyles } from "@material-ui/core/styles";
-import axios from "axios";
 
 import { Footer, Header } from "../../../components";
+import { AuthContext } from '../../../providers/auth';
 
 const styles = theme => ({
   "@global": {
@@ -56,6 +56,8 @@ const styles = theme => ({
 const APIARIES_API = "http://localhost:3001/api/v1/beekeeper/apiaries/";
 
 class BeekeeperHivesPage extends Component {
+  static contextType = AuthContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -71,6 +73,11 @@ class BeekeeperHivesPage extends Component {
   };
 
   componentDidMount() {
+    const { user } = this.context;
+    if (!user || user.role != "beekeeper") {
+      Router.push("/login");
+    }
+    
     let config = {
       headers: {
         Authorization: "Bearer " + localStorage.token,
@@ -129,7 +136,7 @@ class BeekeeperHivesPage extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, state } = this.props;
     const { hives } = this.state;
     return (
       <React.Fragment>
@@ -201,3 +208,5 @@ class BeekeeperHivesPage extends Component {
 }
 
 export default withStyles(styles)(BeekeeperHivesPage);
+// export default compose(keeperInfo, withStyles(styles))(BeekeeperHivesPage);
+

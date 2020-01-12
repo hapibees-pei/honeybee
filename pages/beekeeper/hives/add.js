@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Router  from "next/router";
+import axios from "axios";
 import {
   CssBaseline,
   Typography,
@@ -11,8 +13,10 @@ import {
   TextField
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import axios from "axios";
 import { Footer, Header } from "../../../components";
+import { AuthContext } from '../../../providers/auth';
+
+
 
 const styles = theme => ({
   "@global": {
@@ -42,6 +46,8 @@ const styles = theme => ({
 });
 
 class AddHivePage extends Component {
+  static contextType = AuthContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -76,6 +82,10 @@ class AddHivePage extends Component {
   };
 
   componentDidMount() {
+    const { user } = this.context;
+    if (!user || user.role != "beekeeper") {
+      Router.push("/login");
+    }
     this.getApiaries();
   }
 
@@ -227,3 +237,4 @@ class AddHivePage extends Component {
 }
 
 export default withStyles(styles)(AddHivePage);
+

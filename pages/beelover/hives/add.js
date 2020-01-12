@@ -1,18 +1,16 @@
 import React, { Component } from "react";
+import Router  from "next/router";
 import {
   CssBaseline,
   Typography,
   Container,
   Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  TextField, Grid, Card, CardContent, CardActions
+  Grid, Card, CardContent, CardActions
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { Footer, Header } from "../../../components";
+import { AuthContext } from '../../../providers/auth';
 
 const styles = theme => ({
   "@global": {
@@ -46,6 +44,8 @@ const styles = theme => ({
 });
 
 class AddHivePage extends Component {
+  static contextType = AuthContext;
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -66,6 +66,10 @@ class AddHivePage extends Component {
   };
 
   componentDidMount() {
+    const { user } = this.context;
+    if (!user || user.role != "beelover") {
+      Router.push("/login");
+    }
     this.getHives();
   }
 
@@ -100,57 +104,57 @@ class AddHivePage extends Component {
           <Container className={classes.hives}>
             <Grid container spacing={5} alignItems="center">
               {hives.map(hive => (
-                  <Grid item xs={12} sm={6} md={6}>
-                    <Card>
-                      <CardContent>
-                        <Typography
-                            className={classes.cardHive}
-                            component="h2"
-                            variant="h4"
-                            color="textPrimary"
+                <Grid item xs={12} sm={6} md={6}>
+                  <Card>
+                    <CardContent>
+                      <Typography
+                        className={classes.cardHive}
+                        component="h2"
+                        variant="h4"
+                        color="textPrimary"
+                      >
+                        {hive.name}
+                      </Typography>
+                      <Typography
+                        className={classes.cardHive}
+                        component="h2"
+                        variant="subtitle1"
+                        color="textPrimary"
+                      >
+                        Description: {hive.description}
+                      </Typography>
+                      <Typography
+                        className={classes.cardHive}
+                        component="h2"
+                        variant="subtitle1"
+                        color="textPrimary"
+                      >
+                        Status: {hive.status}
+                      </Typography>
+                      <Typography
+                        className={classes.cardHive}
+                        component="h2"
+                        variant="subtitle1"
+                        color="textPrimary"
+                      >
+                        Success Rate: {hive.success_rate}
+                      </Typography>
+                      <CardActions>
+                        <Button
+                          href={
+                            "/beelover/hives/fund?hive=" +
+                            hive.id
+                          }
+                          fullWidth
+                          variant="contained"
+                          color="warning"
                         >
-                          {hive.name}
-                        </Typography>
-                        <Typography
-                            className={classes.cardHive}
-                            component="h2"
-                            variant="subtitle1"
-                            color="textPrimary"
-                        >
-                          Description: {hive.description}
-                        </Typography>
-                        <Typography
-                            className={classes.cardHive}
-                            component="h2"
-                            variant="subtitle1"
-                            color="textPrimary"
-                        >
-                          Status: {hive.status}
-                        </Typography>
-                        <Typography
-                            className={classes.cardHive}
-                            component="h2"
-                            variant="subtitle1"
-                            color="textPrimary"
-                        >
-                          Success Rate: {hive.success_rate}
-                        </Typography>
-                        <CardActions>
-                          <Button
-                              href={
-                                "/beelover/hives/fund?hive=" +
-                                hive.id
-                              }
-                              fullWidth
-                              variant="contained"
-                              color="warning"
-                          >
-                            Fund
+                          Fund
                           </Button>
-                        </CardActions>
-                      </CardContent>
-                    </Card>
-                  </Grid>
+                      </CardActions>
+                    </CardContent>
+                  </Card>
+                </Grid>
               ))}
             </Grid>
           </Container>

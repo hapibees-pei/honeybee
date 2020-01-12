@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Router  from "next/router";
 import RegisterForm from "../components/RegisterForm";
 import { CssBaseline, Typography, Container } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
@@ -6,6 +7,8 @@ import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
 
 import { Footer, Header } from "../components";
+import { AuthContext } from '../providers/auth';
+
 
 const styles = theme => ({
   "@global": {
@@ -28,6 +31,8 @@ const styles = theme => ({
 });
 
 class RegisterPage extends Component {
+  static contextType = AuthContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -41,6 +46,12 @@ class RegisterPage extends Component {
     this.handleRegisterSubmit = this.handleRegisterSubmit.bind(this)
   }
 
+  componentDidMount() {
+    const { user } = this.context;
+    if (user) {
+      Router.push("/" + user.role);
+    }
+  }
 
   handleInputChange = name => event => {
     this.setState({
