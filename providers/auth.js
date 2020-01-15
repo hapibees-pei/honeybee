@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     const response = await getProfile();
 
     setUser(response);
-  
+
     setFetchingInitialUser(false);
   }
 
@@ -25,12 +25,12 @@ export const AuthProvider = ({ children }) => {
     const response = await login(email, password);
 
     localStorage.setItem("token", response.token);
-    
+
     const profile = await getProfile();
 
     setUser(profile);
-    
-    Router.push('/' + profile.role);
+
+    Router.push('/' + profile.role + "/hives");
   }
 
   function handleLogout() {
