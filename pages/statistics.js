@@ -83,6 +83,14 @@ class StatisticsPage extends Component {
   };
 
   fetchLineChartData = type => {
+    const token = localStorage.getItem("token");
+
+    let config = {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    };
+
     axios
       .get(
         APIARY_API +
@@ -92,7 +100,7 @@ class StatisticsPage extends Component {
         "?query=" +
         type +
         "&time_unity=minute"
-      )
+      ,config)
       .then(res => {
         this.setState({
           linechartValues: this.processData(res.data),
@@ -109,6 +117,14 @@ class StatisticsPage extends Component {
   };
 
   fetchOverallData = async () => {
+    const token = localStorage.getItem("token");
+
+    let config = {
+      headers: {
+        Authorization: "Bearer " + token
+      }
+    };
+
     var readings = [];
 
     for (var i = 0; i < HIVE_PARAMS.length; i++) {
@@ -121,7 +137,7 @@ class StatisticsPage extends Component {
           "?query=" +
           HIVE_PARAMS[i] +
           "&time_unity=minute"
-        )
+        ,config)
         .then(res => {
           readings.push(this.lastReading(res.data));
         })
