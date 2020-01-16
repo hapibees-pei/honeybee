@@ -18,6 +18,10 @@ const styles = theme => ({
   ButtonContent: {
     padding: theme.spacing(1, 5, 6),
     marginTop: 6
+  },
+  button: {
+    margin: theme.spacing(1, 0.5),
+    alignSelf: "center"
   }
 });
 
@@ -50,6 +54,7 @@ class LineChart extends Component {
             data={values}
             style={{
               strokeLinejoin: "round",
+              fill: "none",
               strokeWidth: 4
             }}
           />
@@ -58,6 +63,7 @@ class LineChart extends Component {
         {!error ? (
           <Container className={classes.ButtonContent}>
             <Button
+              className={classes.button}
               variant="outlined"
               color="secondary"
               size="small"
@@ -66,6 +72,7 @@ class LineChart extends Component {
               Temperature
             </Button>
             <Button
+              className={classes.button}
               variant="outlined"
               color="secondary"
               size="small"
@@ -74,6 +81,7 @@ class LineChart extends Component {
               Pressure
             </Button>
             <Button
+              className={classes.button}
               variant="outlined"
               color="secondary"
               size="small"
@@ -82,6 +90,7 @@ class LineChart extends Component {
               Light
             </Button>
             <Button
+              className={classes.button}
               variant="outlined"
               color="secondary"
               size="small"
@@ -90,6 +99,7 @@ class LineChart extends Component {
               Noise
             </Button>
             <Button
+              className={classes.button}
               variant="outlined"
               color="secondary"
               size="small"
@@ -98,6 +108,7 @@ class LineChart extends Component {
               Accelerometer
             </Button>
             <Button
+              className={classes.button}
               variant="outlined"
               color="secondary"
               size="small"
