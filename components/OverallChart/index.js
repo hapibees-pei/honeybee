@@ -10,6 +10,9 @@ class OverallChart extends Component {
       this.props.values.length != 0
         ? this.props.values
         : new Array(6).fill("loading");
+    var status_color = "";
+    if (this.props.status == "healthy") status_color = "#4bb543";
+    else status_color = "#ff0000";
 
     const newData = [
       { x: 3.2, y: 2.4, reading: values[0], type: "Temperature", unity: "ºC" },
@@ -97,9 +100,9 @@ class OverallChart extends Component {
             animation
             className="hexbin-example"
             style={{
-              stroke: "black",
+              stroke: status_color,
               strokeLinejoin: "round",
-              strokeWidth: 3
+              strokeWidth: 2
             }}
             xOffset={0}
             yOffset={0}

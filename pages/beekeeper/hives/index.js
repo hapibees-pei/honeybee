@@ -135,6 +135,21 @@ class BeekeeperHivesPage extends Component {
     }
   }
 
+  handleStatistics(n, status, desc, id1, id2, n_bees) {
+    Router.push({
+      pathname: "/statistics",
+      query: {
+        name: n,
+        status: status,
+        description: desc,
+        hive: id1,
+        apiary: id2,
+        bee_number: n_bees
+      },
+      shallow: true
+    });
+  }
+
   render() {
     const { classes, state } = this.props;
     const { hives } = this.state;
@@ -181,11 +196,15 @@ class BeekeeperHivesPage extends Component {
                       </Typography>
                       <CardActions>
                         <Button
-                          href={
-                            "/statistics?apiary=" +
-                            hive.apiary_id +
-                            "&hive=" +
-                            hive.id
+                          onClick={() =>
+                            this.handleStatistics(
+                              hive.name,
+                              hive.status,
+                              hive.description,
+                              hive.id,
+                              hive.apiary_id,
+                              hive.bee_number
+                            )
                           }
                           fullWidth
                           variant="contained"

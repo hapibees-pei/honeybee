@@ -9,6 +9,8 @@ import OverallChart from "../components/OverallChart/index.js";
 import axios from "axios";
 import { Footer, Header } from "../components";
 import moment from "moment";
+import { withRouter } from "next/router";
+import { compose } from "recompose";
 
 const styles = theme => ({
   "@global": {
@@ -31,6 +33,10 @@ const styles = theme => ({
     marginTop: 0,
     marginBottom: 50
   },
+  subtitleContent: {
+    marginTop: 15
+  },
+
   plot: {
     padding: theme.spacing(4, 0, 6)
   }
@@ -52,8 +58,11 @@ class StatisticsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      hive_name: "",
       apiary_id: "",
       hive_id: "",
+      hive_status: "",
+      hive_desc: "",
       overallValues: [],
       linechartValues: [],
       linechartLabels: [],
@@ -83,15 +92,22 @@ class StatisticsPage extends Component {
   };
 
   fetchLineChartData = type => {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.token,
+        "Content-Type": "application/json"
+      }
+    };
     axios
       .get(
         APIARY_API +
-        this.state.apiary_id +
-        "/statistics/" +
-        this.state.hive_id +
-        "?query=" +
-        type +
-        "&time_unity=minute"
+          this.state.apiary_id +
+          "/statistics/" +
+          this.state.hive_id +
+          "?query=" +
+          type +
+          "&time_unity=minute",
+        config
       )
       .then(res => {
         this.setState({
@@ -109,18 +125,25 @@ class StatisticsPage extends Component {
   };
 
   fetchOverallData = async () => {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.token,
+        "Content-Type": "application/json"
+      }
+    };
     var readings = [];
 
     for (var i = 0; i < HIVE_PARAMS.length; i++) {
       await axios
         .get(
           APIARY_API +
-          this.state.apiary_id +
-          "/statistics/" +
-          this.state.hive_id +
-          "?query=" +
-          HIVE_PARAMS[i] +
-          "&time_unity=minute"
+            this.state.apiary_id +
+            "/statistics/" +
+            this.state.hive_id +
+            "?query=" +
+            HIVE_PARAMS[i] +
+            "&time_unity=minute",
+          config
         )
         .then(res => {
           readings.push(this.lastReading(res.data));
@@ -150,8 +173,12 @@ class StatisticsPage extends Component {
 
     this.setState(
       {
+        hive_name: params.name,
         apiary_id: params.apiary,
-        hive_id: params.hive
+        hive_id: params.hive,
+        hive_status: params.status,
+        hive_desc: params.description,
+        hive_beeN: params.bee_number
       },
       () => {
         this.fetchOverallData();
@@ -162,28 +189,60 @@ class StatisticsPage extends Component {
 
   render() {
     const { classes } = this.props;
-    const { overallValues, linechartValues, linechartLabels } = this.state;
-
+    const {
+      hive_beeN,
+      hive_name,
+      hive_desc,
+      hive_status,
+      overallValues,
+      linechartValues,
+      linechartLabels
+    } = this.state;
+    //description":"fresh","bee_number":420,"status":"healthy"
     return (
       <React.Fragment>
         <CssBaseline />
         <Header />
         <Container maxWidth="90%" className={classes.statisticsContent}>
-          <Typography component="h1" variant="h2" align="center">
-            Hive X
+          <Typography
+            component="h1"
+            variant="h2"
+            align="center"
+            justify="center"
+          >
+            {"Hive " + hive_name}
+          </Typography>
+          <Typography
+            component="h1"
+            variant="h5"
+            align="center"
+            justify="center"
+            className={classes.subtitleContent}
+          >
+            {"Status: " + hive_status} {" BeeNumber: " + hive_beeN}
+          </Typography>
+          <Typography
+            component="h3"
+            variant="subtitle1"
+            align="center"
+            justify="center"
+            className={classes.subtitleContent}
+          >
+            {hive_desc}
           </Typography>
           <div className={classes.root}>
             <Grid
               container
               justify="center"
               align="center"
-              item xs
+              item
+              xs
               direction="row"
               spacing={3}
               className={classes.plot}
             >
               <Grid item xs sm>
-                {<OverallChart values={overallValues} />}
+                {<OverallChart values={overallValues} status={hive_status} />}
               </Grid>
               <Grid item xs sm>
                 <LineChart
@@ -201,4 +260,4 @@ class StatisticsPage extends Component {
   }
 }
 
-export default withStyles(styles)(StatisticsPage);
+export default compose(withRouter, withStyles(styles))(StatisticsPage);
