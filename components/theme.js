@@ -8,7 +8,7 @@ const theme = createMuiTheme({
       main: '#FCC322',
     },
     secondary: {
-      main: '#feecb8',
+      main: '#FFCD00',
     },
     error: {
       main: red.A400,

@@ -11,7 +11,7 @@ import LogoBlack from "../assets/images/logo/black_on_transparent.png";
 const useStyles = makeStyles(theme => ({
   "@global": {
     body: {
-      backgroundColor: theme.palette.secondary.main
+      backgroundColor: theme.palette.primary.main
     },
     ul: {
       margin: 0,

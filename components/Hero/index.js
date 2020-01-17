@@ -10,25 +10,36 @@ import React from "react";
 import time from '../../assets/images/time.png';
 import vector from '../../assets/images/Vector.png';
 import Logo from "../../assets/images/logo/black_on_yellow.png";
+import Quote from "../../assets/images/aspa.svg";
+import Bee from "../../assets/images/Bee.png";
 import LogoBlack from "../../assets/images/logo/black_on_transparent.png";
 
 
 const useStyles = makeStyles(theme => ({
     heroContent: {
-        padding: theme.spacing(8, 0, 6),
-        alignContent: 'center',
-        alignItems: 'center',
-        alignContent: 'center',
+        padding: theme.spacing(10, 0, 4),
+        //alignContent: 'center',
+        //alignItems: 'center',
         marginTop: 20,
-        marginBottom: 20
+        marginBottom: 20,
+        backgroundImage: `url(${Bee})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'bottom right',
+        backgroundSize: '600px 500px',
+        minHeight: 750
     },
     heroMessage: {
-        width: '100%',
-        fontSize: 30,
-        marginTop: 40,
+        width: '80%',
+        fontSize: 40,
+        marginTop: 70,
         fontStyle: 'italic',
         lineHeight: 1.43,
-        letterSpacing: '0.01071em'
+        letterSpacing: '0.01071em',
+        backgroundImage: `url(${Quote})`,
+        backgroundRepeat: 'no-repeat',
+        marginLeft: 0,
+        paddingTop: 42,
+        paddingLeft: 56
     },
     heroBlurb: {
         marginTop: 20,
@@ -38,6 +49,17 @@ const useStyles = makeStyles(theme => ({
         height: 400,
         width: 400,
         textAlign: 'center'
+    },
+    Einstein: {
+        display: 'flex',
+        marginTop: 12,
+        fontSize: 24,
+        paddingLeft: 56
+    },
+    bee: {
+        width: '100%',
+        backgroundImage: `url(${Bee})`,
+        backgroundRepeat: 'no-repeat'
     }
 }));
 /*
@@ -64,9 +86,9 @@ with little customization.
 function Hero() {
     const classes = useStyles();
     return (
-        <Container maxWidth="md" component="main" alignItems="center" className={classes.heroContent}>
-            <Container style={{ textAlign: 'center', width: '100%' }}>
-                <img src={LogoBlack} height="100px" />
+        <Container maxWidth="md" component="main" className={classes.heroContent}>
+            <Container style={{ width: '100%' }}>
+                <img src={LogoBlack} height="50px" />
             </Container>
             {/* <Grid container spacing={2} alignItems="center" justify="center">
                 <Grid
@@ -76,11 +98,14 @@ function Hero() {
                     md={6}
                     alignContent="center"
                 > */}
-            <Container maxWidth="md" className={classes.heroMessage} style={{ textAlign: 'center', width: '100%' }}>
-                “If the bee disappeared off the face of the Earth, man would only have four years left to live.”                        
-                <Typography style={{ textAlign: 'right', width: '100%' }}>
-                    Albert Einstein                  </Typography>                 </Container>
-
+            <Container maxWidth="md" className={classes.heroMessage}>
+                Se as abelhas desaparecessem do planeta Terra, restariam ao Homem apenas quatro anos de vida.
+            </Container>
+            <Container maxWidth="md" className={classes.Einstein}>
+                <Typography>
+                    Albert Einstein
+                </Typography>
+            </Container>
             {/* <Grid
                         item
                         xs={6}
@@ -101,9 +126,6 @@ function Hero() {
                     md={6}
                 > */}
             {/* <Grid item> */}
-            <Container maxWidth="md" style={{ textAlign: 'center', height: 450, width: '100%' }}>
-                <img src={time} height="100%" />
-            </Container>
             {/* </Grid> */}
             {/* </Grid> */}
             {/* </Grid> */}

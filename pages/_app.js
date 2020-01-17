@@ -23,13 +23,11 @@ export default class MyApp extends App {
         <Head>
           <title>hapibees</title>
         </Head>
-        <AuthProvider>
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             <Component {...pageProps} />
           </ThemeProvider>
-        </AuthProvider>
       </React.Fragment>
     );
   }
