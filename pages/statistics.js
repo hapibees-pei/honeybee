@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Router  from "next/router";
-import { AuthContext } from '../providers/auth';
+import Router from "next/router";
+import { AuthContext } from "../providers/auth";
 import { CssBaseline, Typography, Container } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -63,6 +63,8 @@ class StatisticsPage extends Component {
       hive_id: "",
       hive_status: "",
       hive_desc: "",
+      type: "temperature",
+      time: "hour",
       overallValues: [],
       linechartValues: [],
       linechartLabels: [],
@@ -70,10 +72,12 @@ class StatisticsPage extends Component {
     };
   }
 
-  processLabel = stats => {
+  processLabel = (stats, time) => {
+    const output = time == "day" ? "D" : "H:mm";
+
     const newdata = stats.data.map(row =>
       moment(row.date)
-        .format("H:mm")
+        .format(output)
         .toString()
     );
 
@@ -91,13 +95,18 @@ class StatisticsPage extends Component {
     return readings.data[readings.data.length - 1].value.toFixed(2);
   };
 
-  fetchLineChartData = type => {
+  fetchLineChartData = (type, time) => {
     let config = {
       headers: {
         Authorization: "Bearer " + localStorage.token,
         "Content-Type": "application/json"
       }
     };
+
+    const y_axis = type || this.state.type;
+
+    const x_axis = time || this.state.time;
+
     axios
       .get(
         APIARY_API +
@@ -105,14 +114,17 @@ class StatisticsPage extends Component {
           "/statistics/" +
           this.state.hive_id +
           "?query=" +
-          type +
-          "&time_unity=minute",
+          y_axis +
+          "&group=" +
+          x_axis,
         config
       )
       .then(res => {
         this.setState({
+          time: x_axis,
+          type: y_axis,
           linechartValues: this.processData(res.data),
-          linechartLabels: this.processLabel(res.data)
+          linechartLabels: this.processLabel(res.data, x_axis)
         });
       })
       .catch(error => {
@@ -182,7 +194,7 @@ class StatisticsPage extends Component {
       },
       () => {
         this.fetchOverallData();
-        this.fetchLineChartData("temperature");
+        this.fetchLineChartData("temperature", null);
       }
     );
   }
@@ -196,9 +208,11 @@ class StatisticsPage extends Component {
       hive_status,
       overallValues,
       linechartValues,
-      linechartLabels
+      linechartLabels,
+      type,
+      time
     } = this.state;
-    //description":"fresh","bee_number":420,"status":"healthy"
+
     return (
       <React.Fragment>
         <CssBaseline />
@@ -248,6 +262,8 @@ class StatisticsPage extends Component {
                 <LineChart
                   values={linechartValues}
                   labels={linechartLabels}
+                  x_axis={time}
+                  y_axis={type}
                   handleChangeData={this.fetchLineChartData}
                 />
               </Grid>
