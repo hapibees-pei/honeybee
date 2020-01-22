@@ -1,7 +1,6 @@
 // <reference path="../Plot/react-vis.d.ts"/>
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
-//import "react-vis/dist/style.css";
 import {
   XYPlot,
   XAxis,
@@ -27,7 +26,7 @@ const styles = theme => ({
 
 class LineChart extends Component {
   render() {
-    const { labels, values } = this.props;
+    const { labels, values, x_axis, y_axis } = this.props;
     const { classes } = this.props;
     const error =
       this.props.labels.length == 0 && this.props.values.length == 0;
@@ -38,7 +37,7 @@ class LineChart extends Component {
           <HorizontalGridLines style={{ stroke: "#B7E9ED" }} />
           <VerticalGridLines style={{ stroke: "#B7E9ED" }} />
           <XAxis
-            title="X Axis"
+            title={this.props.x_axis}
             tickFormat={v => labels[v]}
             tickLabelAngle={-45}
             style={{
@@ -48,7 +47,7 @@ class LineChart extends Component {
             }}
           />
 
-          <YAxis title="Y Axis" />
+          <YAxis title={this.props.y_axis} />
           <LineSeries
             className="first-series"
             data={values}
@@ -67,7 +66,7 @@ class LineChart extends Component {
               variant="outlined"
               color="secondary"
               size="small"
-              onClick={() => this.props.handleChangeData("temperature")}
+              onClick={() => this.props.handleChangeData("temperature", null)}
             >
               Temperature
             </Button>
@@ -76,7 +75,7 @@ class LineChart extends Component {
               variant="outlined"
               color="secondary"
               size="small"
-              onClick={() => this.props.handleChangeData("pressure")}
+              onClick={() => this.props.handleChangeData("pressure", null)}
             >
               Pressure
             </Button>
@@ -85,7 +84,7 @@ class LineChart extends Component {
               variant="outlined"
               color="secondary"
               size="small"
-              onClick={() => this.props.handleChangeData("light")}
+              onClick={() => this.props.handleChangeData("light", null)}
             >
               Light
             </Button>
@@ -94,7 +93,7 @@ class LineChart extends Component {
               variant="outlined"
               color="secondary"
               size="small"
-              onClick={() => this.props.handleChangeData("noise")}
+              onClick={() => this.props.handleChangeData("noise", null)}
             >
               Noise
             </Button>
@@ -103,7 +102,7 @@ class LineChart extends Component {
               variant="outlined"
               color="secondary"
               size="small"
-              onClick={() => this.props.handleChangeData("accelerometer")}
+              onClick={() => this.props.handleChangeData("accelerometer", null)}
             >
               Accelerometer
             </Button>
@@ -112,10 +111,39 @@ class LineChart extends Component {
               variant="outlined"
               color="secondary"
               size="small"
-              onClick={() => this.props.handleChangeData("humidity")}
+              onClick={() => this.props.handleChangeData("humidity", null)}
             >
               Humidity
             </Button>
+            <Container>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="secondary"
+                size="small"
+                onClick={() => this.props.handleChangeData(null, "hour")}
+              >
+                Hour
+              </Button>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="secondary"
+                size="small"
+                onClick={() => this.props.handleChangeData(null, "minute")}
+              >
+                Minute
+              </Button>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="secondary"
+                size="small"
+                onClick={() => this.props.handleChangeData(null, "day")}
+              >
+                Day
+              </Button>
+            </Container>
           </Container>
         ) : (
           ""
