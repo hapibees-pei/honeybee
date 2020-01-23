@@ -30,7 +30,6 @@ export const login = async (email, password) => {
   return await axios
     .post(AUTH_LOGIN, user)
     .then(res => res.data)
-  //   .catch(error => this.handleErrorResponse(error));
 }
 
 export const logout = () => {

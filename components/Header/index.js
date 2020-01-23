@@ -109,7 +109,7 @@ class Header extends React.Component {
                     Add Apiary
                   </Button>
                 }
-                {user.role === "beelover" &&
+                {/* {user.role === "beelover" &&
                   <Button
                     variant="contained"
                     color={this.state.isTop ? "secondary" : "white"}
@@ -118,10 +118,10 @@ class Header extends React.Component {
                   >
                     Fundings
                   </Button>
-                }
+                } */}
                 <Link
                   variant="button"
-                  href={"/" + user.role}
+                  // href={"/" + user.role}
                   className={this.state.isTop ? classes.linkBlack : classes.linkWhite}
                 >
                   {"Hello " + user.name}

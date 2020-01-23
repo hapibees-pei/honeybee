@@ -69,6 +69,7 @@ class ApiaryPage extends Component {
     if (!user || user.role != "beekeeper") {
       Router.push("/login");
     }
+    else { Router.push("/beekeeper/hives");}
 
     var params = {};
     location.search

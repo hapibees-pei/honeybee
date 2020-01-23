@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Router  from "next/router";
+import Router from "next/router";
 import {
   CssBaseline,
   Typography,
@@ -52,17 +52,17 @@ const styles = theme => ({
   }
 });
 
-// todo: put in .env => process.env.FUNDINGS_API
 const FUNDINGS_API = "http://localhost:3001/api/v1/beelover/fundings/";
+const HIVES_API = "http://localhost:3001/api/v1/beelover/hives/";
 
 class BeeloverHivesPage extends Component {
   static contextType = AuthContext;
-  
+
   constructor(props) {
     super(props);
     this.state = {
-      apiaries: [],
-      hives: []
+      fundings: [],
+      hives: [],
     };
   }
 
@@ -73,7 +73,7 @@ class BeeloverHivesPage extends Component {
     }
     let config = {
       headers: {
-        Authorization: "Bearer " + localStorage.token,
+        Authorization: "Bearer " + localStorage.getItem("token"),
         "Content-Type": "application/json"
       }
     };
@@ -85,38 +85,46 @@ class BeeloverHivesPage extends Component {
   }
 
   handleApiaryResponse = async res => {
-    if (res.data.hasOwnProperty("apiaries")) {
-      const apiaries = res.data.apiaries;
-      const hives = await Promise.all(
-        apiaries.map(a => this.getHives(a.id, a.name))
+    if (res.data.hasOwnProperty("fundings")) {
+      const fundings = res.data.fundings;
+
+      const fundingsInfo = await Promise.all(
+        fundings.map(a => this.getHiveInfo(a.hive_id, a.price_cents))
       );
-      this.setState({ apiaries, hives: hives.flat() });
+
+      const hives = fundingsInfo.reduce(function (hivesFunded, hive) {
+        const idx = hivesFunded.findIndex(h => h.id === hive.id);
+        if (idx >= 0) {
+          hivesFunded[idx].price += hive.price;
+        }
+        else {
+          hivesFunded.push(hive);
+        }
+        return hivesFunded;
+      }, []);
+
+      this.setState({ fundings, hives });
     } else {
-      this.setState({ error: "Apiaries Not Found" });
+      this.setState({ error: "Fundings Not Found" });
     }
   };
 
-  getHives = async (apiary_id, apiary_name) => {
-    const HIVES_API = FUNDINGS_API + apiary_id + "/hives";
+  getHiveInfo = async (hive_id, price) => {
+    const HIVE_INFO_API = HIVES_API + hive_id;
 
     let config = {
       headers: {
-        Authorization: "Bearer " + localStorage.token,
+        Authorization: "Bearer " + localStorage.getItem("token"),
         "Content-Type": "application/json"
       }
     };
 
     try {
-      const res = await axios.get(HIVES_API, config);
-      await Promise.all(
-        res.data.hives.map(hive => {
-          hive.apiary_id = apiary_id;
-          hive.apiary_name = apiary_name;
-        })
-      );
-      return res.data.hives;
+      const res = await axios.get(HIVE_INFO_API, config);
+      res.data["price"] = price
+      return res.data;
     } catch (error) {
-      this.setState({ error: "Error Get Hives" });
+      this.setState({ error: "Error Get Hive Info" });
     }
   };
 
@@ -126,6 +134,21 @@ class BeeloverHivesPage extends Component {
     } else {
       this.setState({ error: "Network Error" });
     }
+  }
+
+  handleStatistics(n, status, desc, id1, id2, n_bees) {
+    Router.push({
+      pathname: "/statistics",
+      query: {
+        name: n,
+        status: status,
+        description: desc,
+        hive: id1,
+        apiary: id2,
+        bee_number: n_bees
+      },
+      shallow: true
+    });
   }
 
   render() {
@@ -140,8 +163,8 @@ class BeeloverHivesPage extends Component {
             My Hives
           </Typography>
           <Container className={classes.hives}>
-            <Grid container spacing={5} alignItems="center">
-              <Grid item xs={12} sm={6} md={6}>
+            <Grid container spacing={3} alignItems="center">
+              <Grid item xs={10} sm={4} md={4}>
                 <Fab
                   href="/beelover/hives/add"
                   color="primary"
@@ -149,11 +172,11 @@ class BeeloverHivesPage extends Component {
                   variant="extended"
                 >
                   <AddIcon className={classes.extendedIcon} />
-                  Fund Hive
+                  Fund New Hive
                 </Fab>
               </Grid>
               {hives.map(hive => (
-                <Grid item xs={12} sm={6} md={6}>
+                <Grid item xs={10} sm={4} md={4}>
                   <Card>
                     <CardContent>
                       <Typography
@@ -167,26 +190,43 @@ class BeeloverHivesPage extends Component {
                       <Typography
                         className={classes.cardHive}
                         component="h2"
-                        variant="subtitle1"
+                        variant="overline"
                         color="textPrimary"
                       >
-                        Apiary {hive.apiary_name}
+                        You funded {hive.price}€
                       </Typography>
-                      <CardActions>
-                        <Button
-                          href={
-                            "/statistics?apiary=" +
-                            hive.apiary_id +
-                            "&hive=" +
-                            hive.id
-                          }
-                          fullWidth
-                          variant="contained"
-                          color="warning"
-                        >
-                          See statistics
+                      {/* <CardActions> */}
+                      <Button
+                        onClick={() =>
+                          this.handleStatistics(
+                            hive.name,
+                            hive.status,
+                            hive.description,
+                            hive.id,
+                            hive.apiary_id,
+                            hive.bee_number
+                          )
+                        }
+                        fullWidth
+                        className={classes.cardHive}
+
+                        variant="contained"
+                        color="warning"
+                      >
+                        See statistics
                         </Button>
-                      </CardActions>
+                      {/* </CardActions> */}
+                      <Button
+                        onClick={() =>
+                          Router.push("/beelover/fund?hive=" +
+                            hive.id)
+                        }
+                        className={classes.cardHive}
+                        variant="outlined"
+                        color="secondary"
+                      >
+                        Fund More
+                        </Button>
                     </CardContent>
                   </Card>
                 </Grid>
