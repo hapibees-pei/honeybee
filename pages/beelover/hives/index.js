@@ -172,7 +172,7 @@ class BeeloverHivesPage extends Component {
                   variant="extended"
                 >
                   <AddIcon className={classes.extendedIcon} />
-                  Fund New Hive
+                  Fund Hive
                 </Fab>
               </Grid>
               {hives.map(hive => (
@@ -195,7 +195,6 @@ class BeeloverHivesPage extends Component {
                       >
                         You funded {hive.price}€
                       </Typography>
-                      {/* <CardActions> */}
                       <Button
                         onClick={() =>
                           this.handleStatistics(
@@ -214,8 +213,7 @@ class BeeloverHivesPage extends Component {
                         color="warning"
                       >
                         See statistics
-                        </Button>
-                      {/* </CardActions> */}
+                      </Button>
                       <Button
                         onClick={() =>
                           Router.push("/beelover/fund?hive=" +
