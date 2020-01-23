@@ -84,7 +84,6 @@ class AddHivePage extends Component {
 
     let res = await axios.get(endpoint, config);
     if (res.hasOwnProperty("data")) {
-      console.log(res.data.hives);
       this.setState({ hives: res.data.hives, error: "" });
     }
   }
@@ -142,7 +141,7 @@ class AddHivePage extends Component {
                       <CardActions>
                         <Button
                           href={
-                            "/beelover/hives/fund?hive=" +
+                            "/beelover/fund?hive=" +
                             hive.id
                           }
                           fullWidth

@@ -31,6 +31,8 @@ export const AuthProvider = ({ children }) => {
     setUser(profile);
 
     Router.push('/' + profile.role + "/hives");
+
+    return response
   }
 
   function handleLogout() {
