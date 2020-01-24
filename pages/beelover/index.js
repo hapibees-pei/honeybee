@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Router  from "next/router";
+import Router from "next/router";
 import { CssBaseline, Typography, Container, Button, Grid, CardContent, Card, CardActions } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
@@ -55,11 +55,14 @@ class BeeloverPage extends Component {
     if (!user || user.role != "beelover") {
       Router.push("/login");
     }
+    else {
+      Router.push("/beelover/hives");
+    }
   }
 
   handleInputChange = name => event => {
     this.setState({
-      [name]: event.target.value 
+      [name]: event.target.value
     });
   };
 

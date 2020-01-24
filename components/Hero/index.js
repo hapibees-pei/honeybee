@@ -1,15 +1,9 @@
-import { Container, Typography } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import StarIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import React from "react";
 
 import taxiWaiting from '../../assets/images/taxiWaiting.png';
-import vector from '../../assets/images/Vector.png';
-import Logo from "../../assets/images/logo/black_on_yellow.png";
 
 const useStyles = makeStyles(theme => ({
     heroContent: {
@@ -33,27 +27,7 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'center'
     }
 }));
-/*
-<Typography
-    component="h1"
-    variant="h2"
-    align="center"
-    color="textPrimary"
-    gutterBottom
->
-    Hero Message
-</Typography>
-<Typography
-variant="h5"
-align="center"
-color="textSecondary"
-component="p"
-    >
-    Quickly build an effective pricing table for your potential customers
-with this layout. It&apos;s built with default Material-UI components
-with little customization.
-</Typography>
-*/
+
 function Hero() {
   const classes = useStyles();
   return (

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Router  from "next/router";
-import { AuthContext } from '../providers/auth';
+import Router from "next/router";
+import { AuthContext } from "../providers/auth";
 import { CssBaseline, Typography, Container } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -9,6 +9,8 @@ import OverallChart from "../components/OverallChart/index.js";
 import axios from "axios";
 import { Footer, Header } from "../components";
 import moment from "moment";
+import { withRouter } from "next/router";
+import { compose } from "recompose";
 
 const styles = theme => ({
   "@global": {
@@ -31,6 +33,10 @@ const styles = theme => ({
     marginTop: 0,
     marginBottom: 50
   },
+  subtitleContent: {
+    marginTop: 15
+  },
+
   plot: {
     padding: theme.spacing(4, 0, 6)
   }
@@ -52,8 +58,13 @@ class StatisticsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      hive_name: "",
       apiary_id: "",
       hive_id: "",
+      hive_status: "",
+      hive_desc: "",
+      type: "temperature",
+      time: "hour",
       overallValues: [],
       linechartValues: [],
       linechartLabels: [],
@@ -61,10 +72,12 @@ class StatisticsPage extends Component {
     };
   }
 
-  processLabel = stats => {
+  processLabel = (stats, time) => {
+    const output = time == "day" ? "D" : "H:mm";
+
     const newdata = stats.data.map(row =>
       moment(row.date)
-        .format("H:mm")
+        .format(output)
         .toString()
     );
 
@@ -82,21 +95,36 @@ class StatisticsPage extends Component {
     return readings.data[readings.data.length - 1].value.toFixed(2);
   };
 
-  fetchLineChartData = type => {
+  fetchLineChartData = (type, time) => {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.token,
+        "Content-Type": "application/json"
+      }
+    };
+
+    const y_axis = type || this.state.type;
+
+    const x_axis = time || this.state.time;
+
     axios
       .get(
         APIARY_API +
-        this.state.apiary_id +
-        "/statistics/" +
-        this.state.hive_id +
-        "?query=" +
-        type +
-        "&time_unity=minute"
+          this.state.apiary_id +
+          "/statistics/" +
+          this.state.hive_id +
+          "?query=" +
+          y_axis +
+          "&group=" +
+          x_axis,
+        config
       )
       .then(res => {
         this.setState({
+          time: x_axis,
+          type: y_axis,
           linechartValues: this.processData(res.data),
-          linechartLabels: this.processLabel(res.data)
+          linechartLabels: this.processLabel(res.data, x_axis)
         });
       })
       .catch(error => {
@@ -109,18 +137,25 @@ class StatisticsPage extends Component {
   };
 
   fetchOverallData = async () => {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.token,
+        "Content-Type": "application/json"
+      }
+    };
     var readings = [];
 
     for (var i = 0; i < HIVE_PARAMS.length; i++) {
       await axios
         .get(
           APIARY_API +
-          this.state.apiary_id +
-          "/statistics/" +
-          this.state.hive_id +
-          "?query=" +
-          HIVE_PARAMS[i] +
-          "&time_unity=minute"
+            this.state.apiary_id +
+            "/statistics/" +
+            this.state.hive_id +
+            "?query=" +
+            HIVE_PARAMS[i] +
+            "&time_unity=minute",
+          config
         )
         .then(res => {
           readings.push(this.lastReading(res.data));
@@ -150,45 +185,85 @@ class StatisticsPage extends Component {
 
     this.setState(
       {
+        hive_name: decodeURI(params.name),
         apiary_id: params.apiary,
-        hive_id: params.hive
+        hive_id: params.hive,
+        hive_status: params.status,
+        hive_desc: decodeURI(params.description),
+        hive_beeN: params.bee_number
       },
       () => {
         this.fetchOverallData();
-        this.fetchLineChartData("temperature");
+        this.fetchLineChartData("temperature", null);
       }
     );
   }
 
   render() {
     const { classes } = this.props;
-    const { overallValues, linechartValues, linechartLabels } = this.state;
+    const {
+      hive_beeN,
+      hive_name,
+      hive_desc,
+      hive_status,
+      overallValues,
+      linechartValues,
+      linechartLabels,
+      type,
+      time
+    } = this.state;
 
     return (
       <React.Fragment>
         <CssBaseline />
         <Header />
         <Container maxWidth="90%" className={classes.statisticsContent}>
-          <Typography component="h1" variant="h2" align="center">
-            Hive X
+          <Typography
+            component="h1"
+            variant="h2"
+            align="center"
+            justify="center"
+          >
+            {"Hive " + hive_name}
+          </Typography>
+          <Typography
+            component="h1"
+            variant="h5"
+            align="center"
+            justify="center"
+            className={classes.subtitleContent}
+          >
+            {"Status: " + hive_status} {" BeeNumber: " + hive_beeN}
+          </Typography>
+          <Typography
+            component="h3"
+            variant="subtitle1"
+            align="center"
+            justify="center"
+            className={classes.subtitleContent}
+          >
+            {hive_desc}
           </Typography>
           <div className={classes.root}>
             <Grid
               container
               justify="center"
               align="center"
-              item xs
+              item
+              xs
               direction="row"
               spacing={3}
               className={classes.plot}
             >
               <Grid item xs sm>
-                {<OverallChart values={overallValues} />}
+                {<OverallChart values={overallValues} status={hive_status} />}
               </Grid>
               <Grid item xs sm>
                 <LineChart
                   values={linechartValues}
                   labels={linechartLabels}
+                  x_axis={time}
+                  y_axis={type}
                   handleChangeData={this.fetchLineChartData}
                 />
               </Grid>
@@ -201,4 +276,4 @@ class StatisticsPage extends Component {
   }
 }
 
-export default withStyles(styles)(StatisticsPage);
+export default compose(withRouter, withStyles(styles))(StatisticsPage);

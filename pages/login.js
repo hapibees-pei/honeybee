@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Router  from "next/router";
+import Router from "next/router";
 import LoginForm from "../components/LoginForm";
 import { CssBaseline, Typography, Container } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
@@ -24,6 +24,9 @@ const styles = theme => ({
     padding: theme.spacing(8, 0, 6),
     marginTop: 0,
     marginBottom: 50
+  },
+  msgError: {
+    marginTop: theme.spacing(2),
   }
 });
 
@@ -36,7 +39,7 @@ class LoginPage extends Component {
     this.state = {
       email: '',
       password: '',
-      error: ''
+      error: false,
     };
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this)
 
@@ -59,7 +62,8 @@ class LoginPage extends Component {
     const { handleLogin } = this.context;
     const { email, password } = this.state;
 
-    handleLogin(email, password);
+    const response = await handleLogin(email, password);
+    if (!response.token) this.setState({ error: true });
   }
 
   render() {
@@ -73,6 +77,17 @@ class LoginPage extends Component {
             Login
           </Typography>
           <LoginForm onChangeInput={this.handleInputChange} onSubmitLogin={this.handleLoginSubmit} />
+          {this.state.error && (
+            <Typography
+              color="error"
+              component="h1"
+              variant="body1"
+              align="center"
+              className={classes.msgError}
+            >
+              Email/Password incorrect.
+            </Typography>
+          )}
         </Container>
         <Footer />
       </React.Fragment>

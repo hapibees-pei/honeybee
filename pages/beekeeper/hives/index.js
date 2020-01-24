@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Router  from "next/router";
+import Router from "next/router";
 import axios from "axios";
 import {
   CssBaseline,
@@ -36,6 +36,9 @@ const styles = theme => ({
     marginTop: 0,
     marginBottom: 50
   },
+  card: {
+   color: theme.palette.primary.main,
+  },
   hives: {
     marginTop: theme.spacing(5),
     marginBottom: theme.spacing(10)
@@ -54,6 +57,7 @@ const styles = theme => ({
 
 // todo: put in .env => process.env.APIARIES_API
 const APIARIES_API = "http://localhost:3001/api/v1/beekeeper/apiaries/";
+const FUNDINGS_API = "http://localhost:3001/api/v1/beekeeper/fundings/";
 
 class BeekeeperHivesPage extends Component {
   static contextType = AuthContext;
@@ -77,7 +81,7 @@ class BeekeeperHivesPage extends Component {
     if (!user || user.role != "beekeeper") {
       Router.push("/login");
     }
-    
+
     let config = {
       headers: {
         Authorization: "Bearer " + localStorage.token,
@@ -115,17 +119,50 @@ class BeekeeperHivesPage extends Component {
 
     try {
       const res = await axios.get(HIVES_API, config);
-      await Promise.all(
-        res.data.hives.map(hive => {
-          hive.apiary_id = apiary_id;
-          hive.apiary_name = apiary_name;
-        })
-      );
-      return res.data.hives;
+      const hives = await Promise.all(res.data.hives.map(hive =>
+        this.getHiveFunding(hive, apiary_id, apiary_name)
+      ))
+      return hives;
     } catch (error) {
       this.setState({ error: "Error Get Hives" });
     }
   };
+
+  getHiveFunding = async (hive, apiary_id, apiary_name) => {
+    const HIVE_FUNDING_API = APIARIES_API + apiary_id + "/hives/" + hive.id;
+
+    let config = {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        "Content-Type": "application/json"
+      }
+    };
+
+    const res = await axios.get(HIVE_FUNDING_API, config);
+
+    const fundingInfo = res.data.fundings.reduce(function (accFundings, fund) {
+      const idx = accFundings.findIndex(h => h.beelover === fund.user_name);
+      if (idx >= 0) {
+        accFundings[idx].funded += fund.price;
+      }
+      else {
+        accFundings.push({ beelover: fund.user_name, funded: fund.price });
+      }
+      return accFundings;
+    }, []);
+
+    const funding = fundingInfo.reduce(function (nFundings, fund) {
+      nFundings.beelovers++;
+      nFundings.funded += fund.funded;
+      return nFundings;
+    }, { beelovers: 0, funded: 0 });
+
+    const hiveInfo = { ...hive, apiary_id, apiary_name, beelovers: funding.beelovers, funded: funding.funded };
+
+    return hiveInfo;
+  }
+
+
 
   handleApiaryErrorResponse(error) {
     if (error.response && error.response.data.hasOwnProperty("errors")) {
@@ -133,6 +170,21 @@ class BeekeeperHivesPage extends Component {
     } else {
       this.setState({ error: "Network Error" });
     }
+  }
+
+  handleStatistics(n, status, desc, id1, id2, n_bees) {
+    Router.push({
+      pathname: "/statistics",
+      query: {
+        name: n,
+        status: status,
+        description: desc,
+        hive: id1,
+        apiary: id2,
+        bee_number: n_bees
+      },
+      shallow: true
+    });
   }
 
   render() {
@@ -148,7 +200,7 @@ class BeekeeperHivesPage extends Component {
           </Typography>
           <Container className={classes.hives}>
             <Grid container spacing={5} alignItems="center">
-              <Grid item xs={12} sm={6} md={6}>
+              <Grid item xs={10} sm={4} md={4}>
                 <Fab
                   href="/beekeeper/hives/add"
                   color="primary"
@@ -160,7 +212,7 @@ class BeekeeperHivesPage extends Component {
                 </Fab>
               </Grid>
               {hives.map(hive => (
-                <Grid item xs={12} sm={6} md={6}>
+                <Grid item xs={10} sm={4} md={4}>
                   <Card>
                     <CardContent>
                       <Typography
@@ -177,15 +229,27 @@ class BeekeeperHivesPage extends Component {
                         variant="subtitle1"
                         color="textPrimary"
                       >
-                        Apiary {hive.apiary_name}
+                        {hive.apiary_name}
+                      </Typography>
+                      <Typography
+                        className={classes.cardHive}
+                        component="h2"
+                        variant="overline"
+                        color="textPrimary"
+                      >
+                        {hive.beelovers} {hive.beelovers === 1 ? "beelover" : "beelovers"} funded {hive.funded}€
                       </Typography>
                       <CardActions>
                         <Button
-                          href={
-                            "/statistics?apiary=" +
-                            hive.apiary_id +
-                            "&hive=" +
-                            hive.id
+                          onClick={() =>
+                            this.handleStatistics(
+                              hive.name,
+                              hive.status,
+                              hive.description,
+                              hive.id,
+                              hive.apiary_id,
+                              hive.bee_number
+                            )
                           }
                           fullWidth
                           variant="contained"

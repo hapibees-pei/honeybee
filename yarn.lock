@@ -793,9 +793,9 @@
     regenerator-runtime "^0.13.2"
 
 "@babel/runtime@^7.0.0":
-  version "7.7.7"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.7.7.tgz#194769ca8d6d7790ec23605af9ee3e42a0aa79cf"
-  integrity sha512-uCnC2JEVAu8AKB5do1WRIsvrdJ0flYx/A/9f/6chdacnEZ7LmavjdsDXr5ksYBegxtuTPR5Va9/+13QF/kFkCA==
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.8.0.tgz#8c81711517c56b3d00c6de706b0fb13dc3531549"
+  integrity sha512-Z7ti+HB0puCcLmFE3x90kzaVgbx6TRrYIReaygW6EkBEnJh1ajS4/inhF7CypzWeDV3NFl1AfWj0eMtdihojxw==
   dependencies:
     regenerator-runtime "^0.13.2"
 
@@ -3751,10 +3751,6 @@ isobject@^3.0.0, isobject@^3.0.1:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
-isstream@~0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
-  integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 isomorphic-fetch@^2.1.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz#611ae1acf14f5e81f729507472819fe9733558a9"
@@ -3762,6 +3758,11 @@ isomorphic-fetch@^2.1.1:
   dependencies:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
+
+isstream@~0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
+  integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
 jest-worker@24.9.0:
   version "24.9.0"
@@ -4551,6 +4552,14 @@ node-fetch@2.6.0:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
   integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
 
+node-fetch@^1.0.1:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
+  integrity sha512-NhZ4CsKx7cYm2vSrBAr2PvFOe6sWDf0UYLRqA6svUYg7+/TSfVAu49jYC4BvQ4Sms9SZgdqGBgroqfDhJdTyKQ==
+  dependencies:
+    encoding "^0.1.11"
+    is-stream "^1.0.1"
+
 node-gyp@^3.8.0:
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/node-gyp/-/node-gyp-3.8.0.tgz#540304261c330e80d0d5edce253a68cb3964218c"
@@ -4568,13 +4577,6 @@ node-gyp@^3.8.0:
     semver "~5.3.0"
     tar "^2.0.0"
     which "1"
-node-fetch@^1.0.1:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
-  integrity sha512-NhZ4CsKx7cYm2vSrBAr2PvFOe6sWDf0UYLRqA6svUYg7+/TSfVAu49jYC4BvQ4Sms9SZgdqGBgroqfDhJdTyKQ==
-  dependencies:
-    encoding "^0.1.11"
-    is-stream "^1.0.1"
 
 node-libs-browser@^2.2.1:
   version "2.2.1"
@@ -5899,13 +5901,6 @@ readdirp@^2.2.1:
     micromatch "^3.1.10"
     readable-stream "^2.0.2"
 
-redent@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/redent/-/redent-1.0.0.tgz#cf916ab1fd5f1f16dfb20822dd6ec7f730c2afde"
-  integrity sha1-z5Fqsf1fHxbfsggi3W7H9zDCr94=
-  dependencies:
-    indent-string "^2.1.0"
-    strip-indent "^1.0.1"
 recompose@^0.30.0:
   version "0.30.0"
   resolved "https://registry.yarnpkg.com/recompose/-/recompose-0.30.0.tgz#82773641b3927e8c7d24a0d87d65aeeba18aabd0"
@@ -5917,6 +5912,14 @@ recompose@^0.30.0:
     hoist-non-react-statics "^2.3.1"
     react-lifecycles-compat "^3.0.2"
     symbol-observable "^1.0.4"
+
+redent@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/redent/-/redent-1.0.0.tgz#cf916ab1fd5f1f16dfb20822dd6ec7f730c2afde"
+  integrity sha1-z5Fqsf1fHxbfsggi3W7H9zDCr94=
+  dependencies:
+    indent-string "^2.1.0"
+    strip-indent "^1.0.1"
 
 reflect.ownkeys@^0.2.0:
   version "0.2.0"
