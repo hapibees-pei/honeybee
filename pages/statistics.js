@@ -185,11 +185,11 @@ class StatisticsPage extends Component {
 
     this.setState(
       {
-        hive_name: params.name,
+        hive_name: decodeURI(params.name),
         apiary_id: params.apiary,
         hive_id: params.hive,
         hive_status: params.status,
-        hive_desc: params.description,
+        hive_desc: decodeURI(params.description),
         hive_beeN: params.bee_number
       },
       () => {
