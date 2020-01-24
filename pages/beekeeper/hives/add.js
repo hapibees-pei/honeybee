@@ -200,7 +200,7 @@ class AddHivePage extends Component {
               >
                 {apiaries.map(e => (
                   <MenuItem value={e.id} key={e.id}>
-                    {e.id}
+                    {e.name}
                   </MenuItem>
                 ))}
               </Select>
