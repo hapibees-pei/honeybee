@@ -192,7 +192,7 @@ class AddHivePage extends Component {
               onChange={this.handleHiveInputChange("bee_number")}
             />
             <FormControl required fullWidth margin="normal">
-              <InputLabel id="apiary_id-label">Apiary ID</InputLabel>
+              <InputLabel id="apiary_id-label">Apiary</InputLabel>
               <Select
                 labelId="apiary_id-label"
                 id="apiary_id"
